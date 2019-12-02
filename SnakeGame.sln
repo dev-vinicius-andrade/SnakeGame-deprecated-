@@ -1,0 +1,97 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Presentation", "1.Presentation", "{D61D8FD0-B720-4D88-A193-C9AB45A62432}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Services", "2.Services", "{FA2B6005-FF62-4B05-8E4E-1B20C6EDD57C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Domain", "3.Domain", "{A615A3CE-1901-473B-9AB5-37503AC9341B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Infrastructure", "4.Infrastructure", "{48012D5D-B420-4F97-BBB2-2F7FCCB2BAB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Api", "src\Presentation\SnakeGame.Api\SnakeGame.Api.csproj", "{2E5A82F3-F306-491C-BB60-6EBFD4CB202F}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SnakeGame.Ui", "src\Presentation\SnakeGame.Ui\", "{321B7D4C-A7AB-46B5-A523-ED77756BE50B}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_63330"
+		Debug.AspNetCompiler.PhysicalPath = "src\Presentation\SnakeGame.Ui\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63330\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_63330"
+		Release.AspNetCompiler.PhysicalPath = "src\Presentation\SnakeGame.Ui\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63330\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "63330"
+		SlnRelativePath = "src\Presentation\SnakeGame.Ui\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Infrastructure", "src\Infrastructure\SnakeGame.Infrastructure\SnakeGame.Infrastructure.csproj", "{7194C91E-87CD-4351-B6B0-EE0178A0AA3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Services", "src\Services\SnakeGame.Services\SnakeGame.Services.csproj", "{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Domain.Player", "src\Domain\SnakeGame.Domain.Player\SnakeGame.Domain.Player.csproj", "{DC169735-BEA4-4338-A314-50D4ED8D1E5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Domain.Food", "src\Domain\SnakeGame.Domain.Food\SnakeGame.Domain.Food.csproj", "{D1F11225-008B-4E2C-95BD-DAA1BE54D85C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Domain.Snake", "src\Domain\SnakeGame.Domain.Snake\SnakeGame.Domain.Snake.csproj", "{339B3208-1CC9-4842-B303-254030019F1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E5A82F3-F306-491C-BB60-6EBFD4CB202F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E5A82F3-F306-491C-BB60-6EBFD4CB202F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E5A82F3-F306-491C-BB60-6EBFD4CB202F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E5A82F3-F306-491C-BB60-6EBFD4CB202F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{321B7D4C-A7AB-46B5-A523-ED77756BE50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{321B7D4C-A7AB-46B5-A523-ED77756BE50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{321B7D4C-A7AB-46B5-A523-ED77756BE50B}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{321B7D4C-A7AB-46B5-A523-ED77756BE50B}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{7194C91E-87CD-4351-B6B0-EE0178A0AA3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7194C91E-87CD-4351-B6B0-EE0178A0AA3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7194C91E-87CD-4351-B6B0-EE0178A0AA3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7194C91E-87CD-4351-B6B0-EE0178A0AA3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC169735-BEA4-4338-A314-50D4ED8D1E5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC169735-BEA4-4338-A314-50D4ED8D1E5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC169735-BEA4-4338-A314-50D4ED8D1E5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC169735-BEA4-4338-A314-50D4ED8D1E5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1F11225-008B-4E2C-95BD-DAA1BE54D85C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1F11225-008B-4E2C-95BD-DAA1BE54D85C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1F11225-008B-4E2C-95BD-DAA1BE54D85C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1F11225-008B-4E2C-95BD-DAA1BE54D85C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{339B3208-1CC9-4842-B303-254030019F1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{339B3208-1CC9-4842-B303-254030019F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{339B3208-1CC9-4842-B303-254030019F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{339B3208-1CC9-4842-B303-254030019F1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2E5A82F3-F306-491C-BB60-6EBFD4CB202F} = {D61D8FD0-B720-4D88-A193-C9AB45A62432}
+		{321B7D4C-A7AB-46B5-A523-ED77756BE50B} = {D61D8FD0-B720-4D88-A193-C9AB45A62432}
+		{7194C91E-87CD-4351-B6B0-EE0178A0AA3E} = {48012D5D-B420-4F97-BBB2-2F7FCCB2BAB4}
+		{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5} = {FA2B6005-FF62-4B05-8E4E-1B20C6EDD57C}
+		{DC169735-BEA4-4338-A314-50D4ED8D1E5D} = {A615A3CE-1901-473B-9AB5-37503AC9341B}
+		{D1F11225-008B-4E2C-95BD-DAA1BE54D85C} = {A615A3CE-1901-473B-9AB5-37503AC9341B}
+		{339B3208-1CC9-4842-B303-254030019F1B} = {A615A3CE-1901-473B-9AB5-37503AC9341B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80B0C69F-BBCB-4A9D-9867-DAED94D4EEFE}
+	EndGlobalSection
+EndGlobal

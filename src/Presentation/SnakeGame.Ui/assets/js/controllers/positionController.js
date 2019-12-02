@@ -1,12 +1,13 @@
 
 class PositionController {
-    constructor(setup) {
-        this.setup=setup;
+    constructor(canvasController) {
+        this.canvasController=canvasController;
     }
     RandomPosition() {
         let position = new Position(
-            Randomizer.RandomValue(this.setup.canvas.minimumPosition,this.setup.canvas.canvasElement.width - this.setup.canvas.scale),
-            Randomizer.RandomValue(this.setup.canvas.minimumPosition,this.setup.canvas.canvasElement.height - this.setup.canvas.scale)
+            Helper.RandomValue(this.canvasController.minimumPosition,this.canvasController.canvasElement.width - this.canvasController.scale),
+            Helper.RandomValue(this.canvasController.minimumPosition,this.canvasController.canvasElement.height - this.canvasController.scale),
+            0
         );
         return position;
     }

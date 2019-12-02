@@ -1,39 +1,65 @@
-class FruitsController {
-    constructor(canvasController, positionController) {
-        this.canvasController=canvasController;
-        this.positionController = positionController;
+class FoodsController {
+    constructor() {
+        this.canvasController=null;
+        this.hub=null;
     }
-    generateRandomFruit()
+    setCanvasController(controller)
+    {
+        this.canvasController = controller;
+        return this;
+    }
+    setHub(hub){
+        this.hub=hub;
+        this.registerEvents();
+        return this;
+    }
+    registerEvents(){
+        this.onFoodGenerated();
+    }
+    async loadFoods(roomId)
+    {
+        let foods = await this.hub.invoke("GetAll",roomId).catch((error) => console.log(error));
+        for(let food of foods)
+            this.add(food);
+    }
+    generateFood(roomId)
     {
 
-        let fruit = new Fruit(this.positionController.RandomPosition());
-
-
-        if(!this.fruitExists(fruit))
-            this.addFruit(fruit);
+        this.hub.invoke("GenerateFood",roomId).catch((error) => console.log(error));
     }
-    addFruit(fruit)
+    onFoodGenerated()
     {
-        this.canvasController.objects.fruits.push(fruit);
-        let randomFruitColor = this.RandomColor();
-        this.canvasController.draw(randomFruitColor, fruit.position, CONFIGURATIONS.FRUITS.FOOD_RADIUS);
-    }
-    removeFruit(fruit)
-    {
-        this.canvasController.objects.fruits.splice(this.canvasController.objects.fruits.indexOf(fruit),1);
-        this.canvasController.clear(fruit,CONFIGURATIONS.FRUITS.FOOD_RADIUS);
-    }
-    getFruit(position)
-    {
-        
-        return this.canvasController.objects.fruits.find(function (element) {
-            return element.position.X===position.X && element.position.Y===position.Y;
+        let scope = this;
+        this.hub.on("FruitGenerated", function (food) {
+            scope.add(food);
         });
     }
-    fruitExists(fruit){
-        let exists = this.canvasController.objects.fruits.some(function (element) {
-            debugger;
-            return element.position.X===fruit.position.X && element.position.Y===fruit.position.Y;
+    add(food)
+    {
+        this.canvasController.objects.foods.push(food);
+        let color = this.RandomColor();
+        this.canvasController.draw(color, food.position, CONFIGURATIONS.FOOD.FOOD_RADIUS);
+    }
+    remove(food)
+    {
+        this.canvasController.objects.foods.splice(this.canvasController.objects.foods.indexOf(food),1);
+        this.canvasController.clear(food.position,CONFIGURATIONS.FOOD.FOOD_RADIUS);
+    }
+    get(position)
+    {
+        for (const food of this.canvasController.objects.foods) {
+            if (
+                (position.x > food.position.x - 10) && (position.x < food.position.x + 10) &&
+                (position.y > food.position.y - 10) && (position.y < food.position.y + 10)
+            ) {
+                return food;
+            }
+        }
+    }
+
+    exists(food){
+        let exists = this.canvasController.objects.foods.some(function (element) {
+            return element.position.x===food.position.x && element.position.y===food.position.y;
         });
         return exists;
     }

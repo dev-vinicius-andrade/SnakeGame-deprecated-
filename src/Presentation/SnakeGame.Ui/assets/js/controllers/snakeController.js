@@ -1,13 +1,26 @@
-class PlayerController{
-    constructor(snake,canvasController,hub){
-        this.canvasController = canvasController;
+class SnakeController{
+    constructor(){
+        this.canvasController = null;
         this.movementType = CONFIGURATIONS.SNAKE.MOVEMENT_TYPE;
         this.speed = CONFIGURATIONS.SNAKE.SPEED;
-        this.snake = snake;
-        this.canvasController.objects.snakes.push(snake);
-        this.hub = hub;
+        this.snake = null;
+        //this.canvasController.objects.snakes.push(snake);
+        this.hub = null;
     }
-
+    setCanvasController(controller)
+    {
+        this.canvasController = controller;
+        return this;
+    }
+    setHub(hub){
+        this.hub=hub;
+        return this;
+    }
+    setSnake(snake)
+    {
+        this.snake = snake;
+        return this;
+    }
 
     drawSnakePath(){
         let scope = this;
@@ -15,7 +28,6 @@ class PlayerController{
         this.snake.path.forEach(function (position) {
             scope.draw(scope.snake.color, position, scope.snake.headRadius);
         });
-
 
     }
     draw(color,position){

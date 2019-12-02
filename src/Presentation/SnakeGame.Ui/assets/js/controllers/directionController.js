@@ -1,17 +1,34 @@
 class DirectionController {
+    constructor() {
 
-    right()
+    }
+    ArrowRight()
     {
-        return new Position(1,0);
+        return new Position(1,0,CONFIGURATIONS.SNAKE.ROTATION_SPEED);
     }
-    left(){
-        return new Position(-1,0);
+    ArrowLeft(){
+        return new Position(-1,0,-CONFIGURATIONS.SNAKE.ROTATION_SPEED);
     }
-    up(){
-        return new Position(0,1);
+    ArrowUp(){
+        return new Position(0,-1,0);
     }
-    down(){
-        return new Position(0,-1);
+    ArrowDown(){
+        return new Position(0,1,0);
+    }
+    RandomDirection()
+    {
+        let value = Helper.RandomValue(1,100);
+        if(value<25)
+            return this.ArrowRight();
+        if(value<50)
+            return  this.ArrowLeft();
+        if(value<75)
+            return  this.ArrowUp();
+        if(value<=100)
+            return this.ArrowDown();
+
+        console.log('Failed to generate randomic direction, using right as default');
+        return this.ArrowRight();
     }
 
 }
