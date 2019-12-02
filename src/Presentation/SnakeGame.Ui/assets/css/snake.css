@@ -1,0 +1,33 @@
+
+#snakeCanvas{
+    border: 1px solid blueviolet;
+    box-sizing: border-box;
+}
+#gameWrapper{
+    width: 700px;
+    height: 500px;
+    border: 1px solid blueviolet;
+    box-sizing: border-box;
+}
+#playButton{
+    margin-left: 5px;
+    position: absolute;
+    top: 50%;
+    width: 190px; 
+    color: #393E46;
+}
+.customButtons{
+    background-color:#9FE481 ;
+    height: 50px;
+    border: none;
+}
+.middle{
+    padding: 0;
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
