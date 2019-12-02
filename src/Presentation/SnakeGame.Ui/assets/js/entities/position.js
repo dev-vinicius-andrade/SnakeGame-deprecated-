@@ -1,8 +1,11 @@
 class Position{
+    _x;
+    _y;
+    _angle;
     constructor(xPosition,yPosition,angle) {
-        this.xPosition=null;
-        this.yPosition=null;
-        this.angleValue = null;
+        this._x=null;
+        this._y=null;
+        this._angle = null;
         this.x= xPosition;
         this.y=yPosition;
         this.angle=angle;
@@ -10,34 +13,34 @@ class Position{
     }
     set angle(angle)
     {
-        if(this.angleValue!=angle) {
-            this.angleValue = angle;
+        if(this._angle!=angle) {
+            this._angle = angle;
             this.onChange(this);
         }
     }
     get angle(){
-        return this.angleValue;
+        return this._angle;
     }
     get x(){
-        return this.xPosition;
+        return this._x;
     }
     set x(position)
     {
 
-        if(this.xPosition!=position) {
-            this.xPosition = position;
+        if(this._x!=position) {
+            this._x = position;
             this.onChange(this);
         }
     }
     set y(position)
     {
-        if(this.yPosition!=position) {
-            this.yPosition = position;
+        if(this._y!=position) {
+            this._y = position;
             this.onChange(this);
         }
     }
     get y(){
-        return this.yPosition;
+        return this._y;
     }
     onChange(position){}
     registerOnChangeHandler(eventHandler,controller){
