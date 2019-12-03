@@ -2,10 +2,10 @@ class Direction {
     x;
     y;
     angle;
-    constructor() {
-        this.x=null;
-        this.y=null;
-        this.angle=null;
+    constructor(x,y,angle) {
+        this.x=x;
+        this.y=y;
+        this.angle=angle;
     }
 
 }

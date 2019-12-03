@@ -4,16 +4,18 @@ class DirectionController {
     }
     ArrowRight()
     {
-        return new Position(1,0,CONFIGURATIONS.SNAKE.ROTATION_SPEED);
+        return new Direction(1,0,CONFIGURATIONS.SNAKE.ROTATION_SPEED);
+        //mudar o ROTATION_SPEED para 1 e -1 no arrow left
+
     }
     ArrowLeft(){
-        return new Position(-1,0,-CONFIGURATIONS.SNAKE.ROTATION_SPEED);
+        return new Direction(-1,0,-CONFIGURATIONS.SNAKE.ROTATION_SPEED);
     }
     ArrowUp(){
-        return new Position(0,-1,0);
+        return new Direction(0,-1,0);
     }
     ArrowDown(){
-        return new Position(0,1,0);
+        return new Direction(0,1,0);
     }
     RandomDirection()
     {

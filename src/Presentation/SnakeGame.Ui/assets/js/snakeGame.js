@@ -53,7 +53,7 @@ window.onload = function() {
         let playerController = new PlayerController(snakeController).setHub(playerHub);
 
         let foodsController = new FoodsController().setCanvasController(canvasController).setHub(foodHub);
-        let gameController = new GameController(foodsController,playerController).setHub(gameHub);
+        let gameController = new GameController(foodsController,playerController).setCanvasController(canvasController).setHub(gameHub);
         return gameController;
 
     }

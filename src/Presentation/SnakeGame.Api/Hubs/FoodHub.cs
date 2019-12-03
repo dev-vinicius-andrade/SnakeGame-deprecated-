@@ -34,11 +34,11 @@ namespace SnakeGame.Api.Hubs
             }
         }
 
-        public List<FoodModel> GetAll(string roomGuid)
+        public List<FoodModel> GetAll(Guid roomGuid)
         {
             try
             {
-                return _roomService.Get(roomGuid.ToGuid()).Foods;
+                return _roomService.Get(roomGuid).Foods;
             }
             catch (Exception ex)
             {

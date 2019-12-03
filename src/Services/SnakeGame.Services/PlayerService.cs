@@ -20,20 +20,20 @@ namespace SnakeGame.Services
         }
         public PlayerModel New(string connectionId, string name)
         {
-            var availableRoom = _roomService.AvailableRooms().FirstOrDefault();
+            var availableRoom = _roomService.AvailableRooms().OrderBy(p=>p.DateCreated).FirstOrDefault();
             if (availableRoom.IsNull())
                 availableRoom = _roomService.New();
 
-            if (!_roomService.IsRoomAvailable(availableRoom)) return New(connectionId, name);
-
+            availableRoom.LockRoom();
             var playerModel = new PlayerModel
             {
                 RoomId = availableRoom.RoomGuid,
                 Id = connectionId,
                 Name = name,
-                Snake = _snakeService.Create()
+                Snake = _snakeService.Create(_roomService.GetRandomAvailableColor(availableRoom))
             };
             availableRoom.Players.Add(playerModel);
+            availableRoom.DislockRoom();
             return playerModel;
         }
 
@@ -46,6 +46,11 @@ namespace SnakeGame.Services
                 room.Players.Remove(player);
             if (!room.Players.Any())
                 _roomService.RemoveRoom(room);
+        }
+
+        public PlayerModel Get(Room room, string playerId)
+        {
+            return room.Players.FirstOrDefault(p => p.Id == playerId);
         }
     }
 }

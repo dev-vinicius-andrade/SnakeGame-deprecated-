@@ -2,8 +2,7 @@ class SnakeController{
     constructor(){
         this.canvasController = null;
         this.movementType = CONFIGURATIONS.SNAKE.MOVEMENT_TYPE;
-        this.speed = CONFIGURATIONS.SNAKE.SPEED;
-        this.snake = null;
+        this.player = null;
         //this.canvasController.objects.snakes.push(snake);
         this.hub = null;
     }
@@ -16,96 +15,102 @@ class SnakeController{
         this.hub=hub;
         return this;
     }
-    setSnake(snake)
+    setPlayer(player)
     {
-        this.snake = snake;
+        this.player = player;
         return this;
     }
-
-    drawSnakePath(){
+    drawSnakePath(snake){
         let scope = this;
-        scope.removeLastPathPosition();
-        this.snake.path.forEach(function (position) {
-            scope.draw(scope.snake.color, position, scope.snake.headRadius);
+        snake.path.forEach(function (position) {
+            scope.draw(snake.color, position, snake.headRadius);
         });
 
     }
-    draw(color,position){
-        this.canvasController.draw(color, position, this.snake.headRadius);
+    draw(color,position,radius){
+        this.canvasController.draw(color, position,radius);
     }
-    move(position){
+    move(player,position){
             switch (this.movementType) {
                 case canvasDrawTypeEnum.RECTANGLE:
-                    this.linearMovement(position);
+                    this.linearMovement(position,player);
                     break;
                 case  canvasDrawTypeEnum.CIRCLE:
-                    this.angularMovement(position);
+                    this.angularMovement(position,player);
+                    break;
             }
-
     }
     add(position){
-        this.snake.path.push(new Position(position.x,position.y));
-        this.draw(this.snake.color,position);
+        this.player.snake.path.push(new Position(position.x,position.y));
+        this.draw(this.player.snake.color,position);
     }
-    linearMovement(position){
-        this.snake.currentlyPosition.X+= (position.x*this.speed);
-        this.snake.currentlyPosition.Y+=(position.y*this.speed);
-        this.recalculateXPosition();
-        this.recalculateYPosition();
-        this.snake.path.push(new Position(this.snake.currentlyPosition.x,this.snake.currentlyPosition.y));
-        this.drawSnakePath();
+    linearMovement(position,player){
+        player.snake.currentlyPosition.x+= (position.x*player.snake.speed);
+        player.snake.currentlyPosition.y+=(position.y*player.snake.speed);
+        //this.removeLastPathPosition(player);
+        this.recalculateXPosition(player);
+        this.recalculateYPosition(player);
+        this.player.snake.path.push(new Position(this.player.snake.currentlyPosition.x,this.player.snake.currentlyPosition.y));
+        this.registerMovement(player);
+        this.drawSnakePath(player.snake);
     }
-    recalculateXPosition()
+    registerMovement(player)
     {
-        if(this.snake.currentlyPosition.x>= this.canvasController.canvasElement.width)
-            this.snake.currentlyPosition.x=0;
-        if(this.snake.currentlyPosition.x<0)
-            this.snake.currentlyPosition.x=this.canvasController.canvasElement.width;
+        this.hub.invoke("Moved", player.roomId, player.id, player.snake.currentlyPosition).catch((error) => console.log(error));
     }
-    recalculateYPosition()
-    {
-        if(this.snake.currentlyPosition.y>= this.canvasController.canvasElement.height)
-            this.snake.currentlyPosition.y=0;
-        if(this.snake.currentlyPosition.y<0)
-            this.snake.currentlyPosition.y=this.canvasController.canvasElement.height;
-    }
-    angularMovement(position){
-        this.snake.angle+=position.angle;
-        let radian = Helper.DegreesToRadian(this.snake.angle);
-        this.snake.currentlyPosition.x+= (this.speed*Math.cos(radian));
-        this.snake.currentlyPosition.y+=(this.speed*Math.sin(radian));
-        this.recalculateXPosition();
-        this.recalculateYPosition();
-        this.snake.path.push(
+    angularMovement(position,player){
+        player.snake.angle+=position.angle;
+        let radian = Helper.DegreesToRadian(player.snake.angle);
+        player.snake.currentlyPosition.x+= (player.snake.speed*Math.cos(radian));
+        player.snake.currentlyPosition.y+=(player.snake.speed*Math.sin(radian));
+        //this.removeLastPathPosition(player);
+        this.recalculateXPosition(player);
+        this.recalculateYPosition(player);
+        this.player.snake.path.push(
             new Position(
-                this.snake.currentlyPosition.x,
-                this.snake.currentlyPosition.y,
+                player.snake.currentlyPosition.x,
+                player.snake.currentlyPosition.y,
                 position.angle
             )
         );
-        this.drawSnakePath();
+        this.registerMovement(player)
+        this.drawSnakePath(player.snake);
     }
-    changeDirection(keyDownEvent){
-        let directionController = new DirectionController(this.speed);
+    recalculateXPosition(player)
+    {
+        if(player.snake.currentlyPosition.x>= this.canvasController.canvasElement.width)
+            player.snake.currentlyPosition.x=0;
+        if(player.snake.currentlyPosition.x<0)
+            player.snake.currentlyPosition.x=this.canvasController.canvasElement.width;
+    }
+    recalculateYPosition(player)
+    {
+        if(player.snake.currentlyPosition.y>= this.canvasController.canvasElement.height)
+            player.snake.currentlyPosition.y=0;
+        if(player.snake.currentlyPosition.y<0)
+            player.snake.currentlyPosition.y=this.canvasController.canvasElement.height;
+    }
+    changeDirection(keyDownEvent,player){
+        let directionController = new DirectionController(player.snake.speed);
         let directionFunction = directionController[keyDownEvent.code];
         if(directionFunction)
         {
             let directionValue = directionFunction();
-            if((this.snake.direction.x!=directionValue.x && this.snake.direction.y!=directionValue.y) ||
-            (this.movementType== canvasDrawTypeEnum.CIRCLE && this.snake.direction.angle!=directionValue.angle))
+            if((player.snake.direction.x!==directionValue.x && player.snake.direction.y!==directionValue.y) ||
+            (this.movementType=== canvasDrawTypeEnum.CIRCLE && player.snake.direction.angle!==directionValue.angle))
             {
-                this.snake.direction=directionValue;
-                this.move(this.snake.direction);
+                player.snake.direction=directionValue;
+                this.hub.invoke("DirectionChanged",player.roomId, player.id, directionValue).catch((error)=>console.log(error));
+                this.move(player, player.snake.direction);
             }
         }
     }
-
     removeLastPathPosition()
     {
-        if(this.snake.path.length>1) {
+        if(this.player.snake.path.length>1) {
 
-           let position =  this.snake.path.shift();
-           this.canvasController.clear(position, this.snake.headRadius);
+           let position =  this.player.snake.path.shift();
+           this.canvasController.clear(position, this.player.snake.headRadius);
         }
     }
 

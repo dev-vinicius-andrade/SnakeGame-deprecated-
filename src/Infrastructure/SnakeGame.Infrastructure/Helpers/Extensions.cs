@@ -8,5 +8,6 @@ namespace SnakeGame.Infrastructure.Helpers
         public static bool IsNull(this object obj) => obj == null;
         public static Guid ToGuid(this string guid) => Guid.Parse(guid);
 
+
     }
 }

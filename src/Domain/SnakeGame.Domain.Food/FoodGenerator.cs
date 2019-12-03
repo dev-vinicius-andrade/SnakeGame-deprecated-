@@ -1,6 +1,7 @@
 ﻿using System;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Models.Configurations;
 
 namespace SnakeGame.Domain.Food
 {
@@ -12,7 +13,7 @@ namespace SnakeGame.Domain.Food
             _configurations = configurations;
         }
 
-        public FoodModel Generate()
+        public FoodModel Generate(string color)
         {
 
             return new FoodModel
@@ -20,9 +21,10 @@ namespace SnakeGame.Domain.Food
                 Guid = Guid.NewGuid(),
                 Position = RandomHelper.RandomPosition(
                     xMinValue: 0,
-                    xMaxValue: _configurations.Width - _configurations.FoodSize,
+                    xMaxValue: _configurations.Width - _configurations.FoodConfiguration.FoodSize,
                     yMinValue: 0,
-                    yMaxValue: _configurations.Height - _configurations.FoodSize)
+                    yMaxValue: _configurations.Height - _configurations.FoodConfiguration.FoodSize),
+                Color = color
             };
 
         }

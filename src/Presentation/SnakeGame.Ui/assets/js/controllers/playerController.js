@@ -14,10 +14,17 @@ class PlayerController {
     registerEvents(){
         this.onPlayerJoined();
     }
+    async loadAll(roomId)
+    {
+        let players = await this.hub.invoke("GetAll",roomId, this.player.id).catch((error) => console.log(error));
+        for(let player of players)
+            this.snakeController.drawSnakePath(player.snake);
+    }
     async new(name){
        this.player = await this.hub
             .invoke("New",name).catch((error)=>console.log(error));
-        return this;
+       this.snakeController.setPlayer(this.player);
+        return this.player.roomId;
     }
     async disconnectPlayer()
     {

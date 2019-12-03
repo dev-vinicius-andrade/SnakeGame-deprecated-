@@ -12,9 +12,12 @@ namespace SnakeGame.Services
     public class FoodService
     {
         private readonly GameData _gameData;
-        public FoodService(GameData gameData)
+        private readonly RoomService _roomService;
+
+        public FoodService(GameData gameData,RoomService roomService)
         {
             _gameData = gameData;
+            _roomService = roomService;
         }
 
         public FoodModel GenerateFood(Room room)
@@ -22,7 +25,7 @@ namespace SnakeGame.Services
             if (!CanGenerate(room))
                 return null;
 
-            var food = new FoodGenerator(_gameData.Configurations).Generate();
+            var food = new FoodGenerator(_gameData.Configurations).Generate(_roomService.GetRandomAvailableColor(room));
             if (Exists(room, food) || ExistsNearBy(room,food))
                 return GenerateFood(room);
             
@@ -37,7 +40,7 @@ namespace SnakeGame.Services
 
         private bool ExistsNearBy(Room room, FoodModel food)
         {
-            var foodSize = _gameData.Configurations.FoodSize;
+            var foodSize = _gameData.Configurations.FoodConfiguration.FoodSize;
             return room.Foods.Any(p=>
             {
                 var xPositionCompare= CalculationsHelper.Distance(p.Position.X.Value, food.Position.X.Value) <= foodSize;

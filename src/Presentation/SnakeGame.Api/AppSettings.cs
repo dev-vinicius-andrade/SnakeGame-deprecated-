@@ -1,4 +1,4 @@
-﻿using SnakeGame.Infrastructure.Models;
+﻿using SnakeGame.Infrastructure.Models.Configurations;
 
 namespace SnakeGame.Api
 {
