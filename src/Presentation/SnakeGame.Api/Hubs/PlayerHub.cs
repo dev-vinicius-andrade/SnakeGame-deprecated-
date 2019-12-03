@@ -24,7 +24,7 @@ namespace SnakeGame.Api.Hubs
         {
             try
             {
-                var player = _playerService.New(Context.ConnectionId, name);
+                var player = _playerService.New(Context.UserIdentifier, name);
 
                 //Clients.AllExcept(player.Id).SendCoreAsync("PlayerJoined", new object[] {player});
                 return player;
@@ -38,11 +38,11 @@ namespace SnakeGame.Api.Hubs
             return null;
         }
 
-        public List<PlayerModel> GetAll(Guid roomGuid,string playerId)
+        public List<PlayerModel> GetEnemies(Guid roomGuid)
         {
             try
             {
-                return _roomService.Get(roomGuid).Players.Where(p=>p.Id!=playerId).ToList();
+                return _roomService.Get(roomGuid).Players.Where(p=>p.Id!=Context.UserIdentifier).ToList();
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace SnakeGame.Api.Hubs
         {
             try
             {
-                _playerService.Disconnect(player.RoomId,player.Id);
+                _playerService.Disconnect(player.RoomId,Context.UserIdentifier);
                 var a = "";
             }
             catch (Exception e)

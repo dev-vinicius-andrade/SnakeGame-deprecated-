@@ -2,12 +2,18 @@
 {
     public class GameConfigurationsModel
     {
-        public int MaxFoods { get; set; }
-        public int MaxPlayers { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+
+        public RoomConfigurationModel RoomConfiguration { get; set; }
         public FoodConfigurationModel FoodConfiguration {get;set;}
         public SnakeConfigurationModel SnakeConfiguration{get;set;}
+
+        public class RoomConfigurationModel
+        {
+            public int MaxFoods { get; set; }
+            public int MaxPlayers { get; set; }
+            public int Width { get; set; }
+            public int Height { get; set; }
+        }
         public class SnakeConfigurationModel
         {
             public int RotationSpeed{get;set;}

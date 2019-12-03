@@ -26,7 +26,9 @@ window.onload = function() {
 
 
     this.JoinGame = async function () {
-
+        // debugger;
+        // let paths =[{x:350,y:50,angle:0},{x:350,y:52,angle:0},{x:350,y:54,angle:0},{x:350,y:56,angle:0},{x:360,y:50,angle:0}];
+        // canvasController.drawPath("#99cc00",paths);
         let game = await Setup();
         await game.connectPlayer('teste novo player');
         canvasController.writeRoomId(game.playerController.player.roomId);

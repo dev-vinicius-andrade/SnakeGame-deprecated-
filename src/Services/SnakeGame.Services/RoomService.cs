@@ -34,7 +34,7 @@ namespace SnakeGame.Services
         }
 
         public List<Room> AvailableRooms()=>_gameData.Rooms.Where(IsRoomAvailable).ToList();
-        public bool IsRoomAvailable(Room room) => room.IsAvailable && (room.Players.Count < _gameData.Configurations.MaxPlayers);
+        public bool IsRoomAvailable(Room room) => room.IsAvailable && (room.Players.Count < _gameData.Configurations.RoomConfiguration.MaxPlayers);
 
         public string GetRandomAvailableColor(Room room)
         {

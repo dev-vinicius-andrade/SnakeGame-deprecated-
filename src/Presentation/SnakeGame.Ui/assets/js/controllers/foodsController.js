@@ -1,4 +1,6 @@
 class FoodsController {
+    canvasController;
+    hub;
     constructor() {
         this.canvasController=null;
         this.hub=null;

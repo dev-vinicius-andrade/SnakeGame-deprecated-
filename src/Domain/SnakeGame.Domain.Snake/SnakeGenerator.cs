@@ -32,14 +32,12 @@ namespace SnakeGame.Domain.Snake
         {
             var initialPosition = RandomHelper.RandomPosition(
                 xMinValue: 0,
-                xMaxValue: _configurations.Width - _configurations.FoodConfiguration.FoodSize,
+                xMaxValue: _configurations.RoomConfiguration.Width - _configurations.FoodConfiguration.FoodSize,
                 yMinValue: 0,
-                yMaxValue: _configurations.Height - _configurations.FoodConfiguration.FoodSize);
+                yMaxValue: _configurations.RoomConfiguration.Height - _configurations.FoodConfiguration.FoodSize);
 
             return new SnakeModel
             {
-
-                CurrentlyPosition = initialPosition,
                 Path = new List<PositionModel> { initialPosition },
                 Size = 1,
                 Direction = RandomDirection(),

@@ -14,7 +14,6 @@ namespace SnakeGame.Api.Hubs
         
         private readonly FoodService _foodService;
         private readonly RoomService _roomService;
-
         public FoodHub(FoodService foodService,RoomService roomService)
         {
             _foodService = foodService;

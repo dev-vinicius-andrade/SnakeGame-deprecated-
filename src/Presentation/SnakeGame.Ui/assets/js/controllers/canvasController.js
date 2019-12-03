@@ -1,4 +1,11 @@
 class  CanvasController{
+    movementType;
+    objects;
+    canvasElement;
+    context;
+    backgroundColor;
+    scale;
+    minimumPosition;
     constructor(type,canvasObject) {
         this.movementType = type;
         this.objects = new CanvasObjects();
@@ -18,6 +25,23 @@ class  CanvasController{
         this.context.fillText(roomId,this.canvasElement.width-210, 15);
         this.context.closePath();
 
+    }
+    drawPath(color,path)
+    {
+        this.context.beginPath();
+        this.context.fillStyle =color;
+        this.context.lineCap = "square";
+        let firstPosition = path.shift();
+        this.context.moveTo(firstPosition.x,firstPosition.y);
+        for(let position of path)
+            this.context.lineTo(position.x,position.y);
+
+
+
+        //this.context.rect(position.x,position.y,this.scale,this.scale);
+        this.context.lineWidth = 10;
+        this.context.stroke();
+        this.context.closePath();
     }
     draw(color, position, radius = null)
     {

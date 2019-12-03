@@ -50,6 +50,6 @@ namespace SnakeGame.Services
         }
 
 
-        private bool CanGenerate(Room room) => room.Foods.Count < _gameData.Configurations.MaxFoods;
+        private bool CanGenerate(Room room) => room.Foods.Count < _gameData.Configurations.RoomConfiguration.MaxFoods;
     }
 }

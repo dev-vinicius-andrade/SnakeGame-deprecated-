@@ -1,4 +1,8 @@
 class PlayerController {
+    hub;
+    player;
+    players;
+    snakeController;
     constructor(snakeController) {
         this.hub=null;
         this.player = null;
@@ -14,9 +18,9 @@ class PlayerController {
     registerEvents(){
         this.onPlayerJoined();
     }
-    async loadAll(roomId)
+    async loadEnemies(roomId)
     {
-        let players = await this.hub.invoke("GetAll",roomId, this.player.id).catch((error) => console.log(error));
+        let players = await this.hub.invoke("GetEnemies",roomId).catch((error) => console.log(error));
         for(let player of players)
             this.snakeController.drawSnakePath(player.snake);
     }

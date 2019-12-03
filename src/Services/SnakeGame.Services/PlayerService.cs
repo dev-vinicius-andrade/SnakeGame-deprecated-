@@ -24,7 +24,7 @@ namespace SnakeGame.Services
             if (availableRoom.IsNull())
                 availableRoom = _roomService.New();
 
-            availableRoom.LockRoom();
+            //availableRoom.LockRoom();
             var playerModel = new PlayerModel
             {
                 RoomId = availableRoom.RoomGuid,
@@ -33,7 +33,7 @@ namespace SnakeGame.Services
                 Snake = _snakeService.Create(_roomService.GetRandomAvailableColor(availableRoom))
             };
             availableRoom.Players.Add(playerModel);
-            availableRoom.DislockRoom();
+            //availableRoom.DislockRoom();
             return playerModel;
         }
 

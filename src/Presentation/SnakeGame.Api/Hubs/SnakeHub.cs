@@ -21,21 +21,23 @@ namespace SnakeGame.Api.Hubs
             _roomService = roomService;
         }
 
-        public void DirectionChanged(Guid roomGuid, string playerId, PositionModel newDirection)
+        public void DirectionChanged(Guid roomGuid, PositionModel newDirection)
         {
             var room = _roomService.Get(roomGuid);
-            var player = _playerService.Get(room, playerId);
+            var player = _playerService.Get(room, Context.UserIdentifier);
             player.Snake.Direction =  newDirection;
         }
 
-        public void Moved(Guid roomGuid, string playerId, PositionModel position)
+        public void Moved(Guid roomGuid, PositionModel position)
         {
             var room = _roomService.Get(roomGuid);
-            var player = _playerService.Get(room, playerId);
-            _snakeService.Move(player.Snake, position);
-            Clients.Caller.SendCoreAsync("SnakeMoved", new object[] {player.Snake});
-            Clients.Clients(_roomService.GetConnectedClientsIds(room))
-                .SendCoreAsync("OnGameMonitoring", new object[]{room});
+            var player = _playerService.Get(room, Context.UserIdentifier);
+            var movementTracker = _snakeService.Move(player.Snake, position);
+            Clients.Caller.SendCoreAsync("SnakeMoved", new object[] { movementTracker });
+            //Clients.Users(_roomService.GetConnectedClientsIds(room))
+            //    .SendCoreAsync("SnakeMoved", new object[] { movementTracker });
+            //Clients.Clients(_roomService.GetConnectedClientsIds(room))
+            //.SendCoreAsync("OnGameMonitoring", new object[]{room});
         }
 
     }

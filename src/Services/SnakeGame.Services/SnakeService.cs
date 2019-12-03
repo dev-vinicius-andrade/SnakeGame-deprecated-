@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SnakeGame.Domain.Snake;
+using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
 using SnakeGame.Services.Entities;
 
@@ -23,16 +24,9 @@ namespace SnakeGame.Services
         }
 
 
-        public void Move(SnakeModel snake, PositionModel position)
+        public SnakeMovementTracker Move(SnakeModel snake, PositionModel position)
         {
-            snake.CurrentlyPosition = new PositionModel
-            {
-                X = position.X,
-                Y = position.Y,
-                Angle = position.Angle
-            };
-            snake.Path.Add(position);
-            snake.Path.RemoveAt(0);
+            return new SnakeMovementTracker(snake).TrackMovement(position);
         }
     }
 }

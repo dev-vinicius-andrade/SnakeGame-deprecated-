@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SnakeGame.Infrastructure.Helpers;
 
 namespace SnakeGame.Infrastructure.Models
@@ -9,7 +10,8 @@ namespace SnakeGame.Infrastructure.Models
         {
             Path=new List<PositionModel>();
         }
-        public PositionModel CurrentlyPosition { get; set; }
+
+        public PositionModel CurrentlyPosition => Path.Last();
         public PositionModel Direction { get; set; }
         public long Size { get; set; }
         public List<PositionModel> Path { get; set; }
