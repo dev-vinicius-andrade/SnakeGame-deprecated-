@@ -1,49 +1,28 @@
 class PlayerController {
     hub;
     player;
-    players;
-    snakeController;
-    constructor(snakeController) {
-        this.hub=null;
-        this.player = null;
-        this.players=[];
-        this.snakeController = snakeController;
-
-    }
-    setHub(hub){
-        this.hub = hub;
+    constructor(hub) {
+        this.hub=hub;
         this.registerEvents();
-        return this;
     }
     registerEvents(){
-        this.onPlayerJoined();
-    }
-    async loadEnemies(roomId)
-    {
-        let players = await this.hub.invoke("GetEnemies",roomId).catch((error) => console.log(error));
-        for(let player of players)
-            this.snakeController.drawSnakePath(player.snake);
+        this.onPlayerJoined(this);
     }
     async new(name){
-       this.player = await this.hub
+      let player = await this.hub
             .invoke("New",name).catch((error)=>console.log(error));
-       this.snakeController.setPlayer(this.player);
-        return this.player.roomId;
+        return player;
     }
-    async disconnectPlayer()
+    async disconnectPlayer(player)
     {
         if(this.player)
             await this.hub
-                .invoke("Disconnect",this.player).catch((error)=>console.log(error));
+                .invoke("Disconnect",player).catch((error)=>console.log(error));
     }
-
-
-    onPlayerJoined()
+    onPlayerJoined(scope)
     {
-        let scope = this;
+
         this.hub.on("PlayerJoined", function (player) {
-            debugger;
-            scope.players.push(player);
         });
     }
 

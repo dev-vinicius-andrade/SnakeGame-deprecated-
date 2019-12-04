@@ -1,10 +1,10 @@
 class MovementTracker {
     snake;
-    beforeMovement;
+    removePosition;
     afterMovement;
     constructor() {
         this.snake=null;
         this.afterMovement=null;
-        this.beforeMovement=null;
+        this.removePosition=null;
     }
 }

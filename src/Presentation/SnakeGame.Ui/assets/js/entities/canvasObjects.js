@@ -1,8 +1,8 @@
 class CanvasObjects {
-    snakes;
+    players;
     foods;
     constructor() {
-        this.snakes=new Array();
+        this.players=new Array();
         this.foods = new Array();
     }
 

@@ -24,7 +24,9 @@ namespace SnakeGame.Domain.Food
                     xMaxValue: _configurations.RoomConfiguration.Width - _configurations.FoodConfiguration.FoodSize,
                     yMinValue: 0,
                     yMaxValue: _configurations.RoomConfiguration.Height - _configurations.FoodConfiguration.FoodSize),
-                Color = color
+                Color = color,
+                BorderColor = _configurations.RoomConfiguration.BackgroundColor,
+                Size = _configurations.FoodConfiguration.FoodSize
             };
 
         }

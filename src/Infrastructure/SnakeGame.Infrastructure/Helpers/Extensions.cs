@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -24,6 +26,13 @@ namespace SnakeGame.Infrastructure.Helpers
                 return originalObject.Clone();
             }
         }
+
+        public static IList<T> AddEntity<T>(this IEnumerable<T> enumerable, T entity)
+        {
+            var list = enumerable.ToList();
+            list.Add(entity);
+            return list;
+        } 
 
 
     }

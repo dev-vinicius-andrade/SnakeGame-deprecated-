@@ -20,37 +20,46 @@ namespace SnakeGame.Services
         }
         public PlayerModel New(string connectionId, string name)
         {
-            var availableRoom = _roomService.AvailableRooms().OrderBy(p=>p.DateCreated).FirstOrDefault();
-            if (availableRoom.IsNull())
-                availableRoom = _roomService.New();
-
-            //availableRoom.LockRoom();
-            var playerModel = new PlayerModel
+            lock (_gameData)
             {
-                RoomId = availableRoom.RoomGuid,
-                Id = connectionId,
-                Name = name,
-                Snake = _snakeService.Create(_roomService.GetRandomAvailableColor(availableRoom))
-            };
-            availableRoom.Players.Add(playerModel);
-            //availableRoom.DislockRoom();
-            return playerModel;
+                var availableRoom = _roomService.AvailableRooms().OrderBy(p => p.DateCreated).FirstOrDefault();
+                if (availableRoom.IsNull())
+                    availableRoom = _roomService.New();
+
+                var playerModel = new PlayerModel
+                {
+                    RoomId = availableRoom.RoomGuid,
+                    Id = connectionId,
+                    Name = name,
+                    Snake = _snakeService.Create(_roomService.GetRandomAvailableColor(availableRoom),
+                        _gameData.Configurations.RoomConfiguration.BackgroundColor)
+                };
+                availableRoom.Players.Add(playerModel);
+                return playerModel;
+            }
         }
 
         public void Disconnect(Guid roomId,string playerId)
         {
-            var room = _roomService.Get(roomId);
-            var player = room.Players.FirstOrDefault(p => p.Id == playerId);
+            lock (_gameData)
+            {
+                var room = _roomService.Get(roomId);
+                var player = room.Players.FirstOrDefault(p => p.Id == playerId);
 
-            if(!player.IsNull())
-                room.Players.Remove(player);
-            if (!room.Players.Any())
-                _roomService.RemoveRoom(room);
+                if (!player.IsNull())
+                    room.Players.Remove(player);
+                if (!room.Players.Any())
+                    _roomService.RemoveRoom(room);
+            }
         }
 
         public PlayerModel Get(Room room, string playerId)
         {
-            return room.Players.FirstOrDefault(p => p.Id == playerId);
+            lock (room)
+            {
+                return room.Players.FirstOrDefault(p => p.Id == playerId);
+            }
+            
         }
     }
 }

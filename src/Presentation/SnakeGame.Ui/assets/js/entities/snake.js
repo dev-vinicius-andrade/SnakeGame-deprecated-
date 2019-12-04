@@ -5,7 +5,7 @@ class Snake {
     path;
     direction;
     color;
-    headRadius;
+    headSize;
     constructor(initialPosition,direction) {
         this.currentlyPosition = initialPosition;
         this.path = new Array(initialPosition);

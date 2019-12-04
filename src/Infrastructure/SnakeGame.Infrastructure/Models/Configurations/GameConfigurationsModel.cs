@@ -2,7 +2,7 @@
 {
     public class GameConfigurationsModel
     {
-
+        public int GameFrameRateMilliSeconds { get; set; }
         public RoomConfigurationModel RoomConfiguration { get; set; }
         public FoodConfigurationModel FoodConfiguration {get;set;}
         public SnakeConfigurationModel SnakeConfiguration{get;set;}
@@ -13,6 +13,7 @@
             public int MaxPlayers { get; set; }
             public int Width { get; set; }
             public int Height { get; set; }
+            public string BackgroundColor { get; set; }
         }
         public class SnakeConfigurationModel
         {

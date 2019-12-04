@@ -10,7 +10,7 @@ namespace SnakeGame.Infrastructure.Models
         public  int Size { get; set; }
         public Guid Guid { get; set; }
         public string Color { get; set; }
-
+        public string BorderColor { get; set; }
         public FoodModel ChangeColor(string color)
         {
             if (!color.IsNullOrEmpty())

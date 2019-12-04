@@ -1,99 +1,100 @@
 class GameController {
     hub;
-    roomId;
+    canvasObjects;
     canvasController;
     foodsController;
     playerController;
-    snakeMovementIntervalTimeout;
-    fruitsGenerationIntervalTimeout;
-
-    constructor(foodsController,playerController) {
-        this.hub=null;
-        this.roomId=null;
-        this.canvasController=null;
+    snakeController;
+    count;
+    constructor(hub,canvasController,foodsController,playerController,snakeController) {
+        this.hub=hub;
+        this.canvasObjects=new CanvasObjects();
+        this.canvasController=canvasController;
         this.foodsController = foodsController;
         this.playerController = playerController;
-        this.snakeMovementIntervalTimeout = CONFIGURATIONS.SNAKE.DEFAULT_SNAKE_MOVEMENT_INTERVAL_TIMEOUT;
-        this.fruitsGenerationIntervalTimeout = CONFIGURATIONS.FOOD.DEFAULT_FRUITS_GENERATION_INTERVAL_TIMEOUT;
+        this.snakeController = snakeController;
+        this.count=0;
     }
-    setHub(hub)
-    {
-        this.hub=hub;
-        return this;
-    }
-    setCanvasController(controller)
-    {
-        this.canvasController = controller;
-        return this;
-    }
-    setKeyDownEventHandler(eventHandler, controller,player){
+     registerKeyDownEventHandler(eventHandler, controller,player){
         document.onkeydown = function (e) {
             eventHandler(e,controller,player);
         }
         return this;
     }
-    setSnakeCurrentlyPositionOnChangeEventHandler(eventHandler)
-    {
-        this.playerController.player.snake.currentlyPosition.registerOnChangeHandler(eventHandler,this);
-        return this;
-    }
+
     async connectPlayer(playerName){
-        let scope = this;
-        this.roomId= await this.playerController.new(playerName);
+        return  await this.playerController.new(playerName);
     }
 
-    async start(){
+    registerEvents(player){
+        this.registerKeyDownEventHandler(DocumentEventHandler.keyDownEventHandler,this.snakeController,player);
+        this.registerOnSnakeMovedEventHandler(this);
+        this.hub.onreconnecting()
+    }
 
-        debugger;
-        this.setKeyDownEventHandler(DocumentEventHandler.keyDownEventHandler,this.playerController.snakeController,this.playerController.player);
-            //.setSnakeCurrentlyPositionOnChangeEventHandler(this.SnakeCurrentlyPositionOnChangeEventHandler,this.playerController.snakeController);
-
-       await this.generateFoods(this);
-       await this.moveSnake(this);
-      //await this.monitorGame(this);
-
-    };
-    moveSnake(scope)
-    {
+    start(player){
         window.setInterval(()=>{
-            this.playerController.snakeController.move(this.playerController.player,this.playerController.player.snake.direction);
-        },this.snakeMovementIntervalTimeout);
+        this.hub.invoke('start', player.roomId)
+            .then(r => {
+
+                this.renderCanvasObjects(this);
+
+            })
+            .catch((error)=>{console.log("Error on game start: "+error)});
+        },150)
     }
 
-    async generateFoods(scope)
+    registerBackEndError()
     {
-        await this.foodsController.loadFoods(this.roomId);
-        window.setInterval(()=> {
-            scope.foodsController.generateFood(scope.roomId);
-        },scope.fruitsGenerationIntervalTimeout);
+        this.hub.on("BackendError", function (error) {
+            console.log(error);
+        });
     }
-    async monitorGame(scope)
+    renderCanvasObjects(scope){
+        scope.renderCanvas(scope);
+        scope.renderSnakes(scope);
+        //requestAnimationFrame(scope.renderCanvasObjects(scope));
+    }
+    renderCanvas(scope){
+        this.canvasController.initialize();
+    }
+     renderSnakes(scope){
+        if(scope.canvasObjects.players!=null)
+            for(let player of scope.canvasObjects.players)
+                scope.canvasController.drawPath(player.snake.color, player.snake.borderColor, player.snake.path, player.snake.headSize);
+    }
+     renderFoods(){
+
+    }
+    functionRenderScore(){
+
+    }
+
+    connect(hub){
+
+        hub.start().catch( e => {
+                this.sleep(5000);
+                console.log("Reconnecting Socket");
+                this.connect(hub);
+            }
+        )
+    }
+    sleep(milliseconds) {
+        return new Promise(resolve => setTimeout(resolve, milliseconds));
+    }
+
+
+    registerOnSnakeMovedEventHandler(scope)
     {
-        window.setInterval(()=>{
-            this.playerController.snakeController.move(this.playerController.player,this.playerController.player.snake.direction);
-        },this.snakeMovementIntervalTimeout);
-        // this.hub.on("OnGameMonitoring", async function (room) {
-        //     debugger;
-        //     scope.canvasController.initialize();
-        //     await scope.foodsController.loadFoods(scope.roomId);
-        //     await scope.playerController.loadAll(scope.roomId);
-        //
-        // })
+        this.hub.on("SnakeMoved", function (movementTracker) {
+
+               scope.count+=1;
+               console.log(scope.count);
+               scope.canvasObjects.players = movementTracker.players;
+               scope.canvasObjects.foods = movementTracker.foods;
+
+        });
     }
 
-
-
-    SnakeCurrentlyPositionOnChangeEventHandler(position){
-        debugger;
-        let food = position.onChangeController.foodsController.get(position);
-        if(food)
-        {
-            position.onChangeController.foodsController.remove(food);
-            position.onChangeController.snakeController.add(food.position);
-        }
-
-
-
-    }
 
 }

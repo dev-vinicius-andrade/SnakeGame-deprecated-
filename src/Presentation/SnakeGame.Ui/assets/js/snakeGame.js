@@ -1,63 +1,35 @@
 "use strict";
+
 window.onload = function() {
 
     let canvas = document.getElementById("snakeCanvas");
-    let canvasController = new CanvasController(CONFIGURATIONS.SNAKE.MOVEMENT_TYPE,canvas);
-    let directionController = new DirectionController();
-    //let positionController = new PositionController(canvasController);
-    let gameHub  = new signalR
+    let canvasController = new CanvasController(canvas);
+    canvasController.initialize(CONFIGURATIONS.CANVAS.WIDTH,CONFIGURATIONS.CANVAS.HEIGHT,CONFIGURATIONS.CANVAS.BACKGROUND_COLOR);
+    const gameHub  = new signalR
         .HubConnectionBuilder()
         .withUrl(CONFIGURATIONS.GAME.HUB.BASE+CONFIGURATIONS.GAME.HUB.GAME)
-        .build();
-    let playerHub  = new signalR
-        .HubConnectionBuilder()
-        .withUrl(CONFIGURATIONS.GAME.HUB.BASE+CONFIGURATIONS.GAME.HUB.PLAYER)
-        .build();
-    let foodHub =   new signalR
-        .HubConnectionBuilder()
-        .withUrl(CONFIGURATIONS.GAME.HUB.BASE+CONFIGURATIONS.GAME.HUB.FOOD)
-        .build();
-    let snakeHub =   new signalR
-        .HubConnectionBuilder()
-        .withUrl(CONFIGURATIONS.GAME.HUB.BASE+CONFIGURATIONS.GAME.HUB.SNAKE)
+        //.withAutomaticReconnect([1000,1000,1000,1000,1000,null])
         .build();
 
-    canvasController.initialize();
-
-
-    this.JoinGame = async function () {
-        // debugger;
-        // let paths =[{x:350,y:50,angle:0},{x:350,y:52,angle:0},{x:350,y:54,angle:0},{x:350,y:56,angle:0},{x:360,y:50,angle:0}];
-        // canvasController.drawPath("#99cc00",paths);
-        let game = await Setup();
-        await game.connectPlayer('teste novo player');
-        canvasController.writeRoomId(game.playerController.player.roomId);
-        await ConfigureGameDispose(game)
-
-        await game.start();
-    }
-    async function ConfigureGameDispose(game)
-    {
-        window.addEventListener("beforeunload",async function (e) {
-            await game.playerController.disconnectPlayer();
-        });
-    }
-    async function InitializeHubs(){
-         await gameHub.start().catch((error)=>console.log("error connecting on gameHub!"));
-         await playerHub.start().catch((error)=>console.log("error connecting on playerHub!"));
-         await foodHub.start().catch((error)=>console.log("error connecting on foodHub!"));
-         await snakeHub.start().catch((error)=>console.log("error connecting on foodHub!"));
-    }
-
-    async function Setup() {
-        await InitializeHubs();
-        let snakeController = new SnakeController().setCanvasController(canvasController).setHub(snakeHub);
-        let playerController = new PlayerController(snakeController).setHub(playerHub);
-
-        let foodsController = new FoodsController().setCanvasController(canvasController).setHub(foodHub);
-        let gameController = new GameController(foodsController,playerController).setCanvasController(canvasController).setHub(gameHub);
-        return gameController;
-
+    this.JoinGame = async function(){
+        gameHub.serverTimeoutInMilliseconds=100000;
+        gameHub.start().then(async p=> {
+            let game = await Setup();
+            let player = await game.connectPlayer('teste novo player');
+            await  game.registerEvents(player);
+            await game.start(player);
+            async function Setup() {
+                let gameController = new GameController(gameHub, canvasController, new FoodsController(canvasController,gameHub),new PlayerController(gameHub),new SnakeController(gameHub,canvasController));
+                return await ConfigureGameDispose(gameController);
+            }
+            async function ConfigureGameDispose(game)
+            {
+                window.addEventListener("beforeunload",async function (e) {
+                    await game.playerController.disconnectPlayer();
+                });
+                return  game;
+            }
+        }).catch((error)=>{console.log("error connecting on gameHub!  "+ error);});
     }
 }
 
