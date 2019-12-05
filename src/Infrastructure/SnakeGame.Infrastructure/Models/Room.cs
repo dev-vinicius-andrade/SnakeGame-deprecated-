@@ -7,14 +7,15 @@ namespace SnakeGame.Infrastructure.Models
 {
     public class Room
     {
-        public Room(bool isAvailable = true)
+        public Room(bool isAvailable = true,bool connectOnlyWithGuid=false)
         {
             Players = new List<PlayerModel>();
             Foods = new List<FoodModel>();
             IsAvailable = isAvailable;
-
+            ConnectOnlyWithGuid = connectOnlyWithGuid;
         }
         public  bool IsAvailable { get; private set; }
+        public  bool ConnectOnlyWithGuid { get; private set; }
         public Guid RoomGuid { get; set; }
         public DateTime DateCreated { get; set; }
         public List<PlayerModel> Players { get; set; }

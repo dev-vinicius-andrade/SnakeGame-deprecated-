@@ -1,0 +1,7 @@
+{
+
+  "HubOptions": {
+    "KeepAliveInterval": 5000,
+    "ClientTimeoutInterval": 5000
+  }
+}

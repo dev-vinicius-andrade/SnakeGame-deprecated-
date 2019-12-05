@@ -18,13 +18,19 @@ namespace SnakeGame.Services
             _roomService = roomService;
             _snakeService = snakeService;
         }
-        public PlayerModel New(string connectionId, string name)
+        public PlayerModel New(string connectionId, string name, string roomId)
         {
             lock (_gameData)
             {
-                var availableRoom = _roomService.AvailableRooms().OrderBy(p => p.DateCreated).FirstOrDefault();
+
+                var availableRoom = roomId.IsNullOrEmpty()
+                                    ?_roomService.AvailableRooms().OrderBy(p => p.DateCreated).FirstOrDefault()
+                                    :_roomService.Get(roomId.ToGuid());
                 if (availableRoom.IsNull())
                     availableRoom = _roomService.New();
+
+                if (!availableRoom.IsAvailable)
+                    return null;
 
                 var playerModel = new PlayerModel
                 {

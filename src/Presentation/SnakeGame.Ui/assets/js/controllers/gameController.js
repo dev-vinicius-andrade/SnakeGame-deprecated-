@@ -6,14 +6,20 @@ class GameController {
     playerController;
     snakeController;
     count;
-    constructor(hub,canvasController,foodsController,playerController,snakeController) {
+    divCanvas;
+    divHome;
+    configurations;
+    constructor(hub,configurations,canvasController,foodsController,playerController,snakeController) {
         this.hub=hub;
+        this.configurations = configurations;
         this.canvasObjects=new CanvasObjects();
         this.canvasController=canvasController;
         this.foodsController = foodsController;
         this.playerController = playerController;
         this.snakeController = snakeController;
         this.count=0;
+        this.divCanvas = document.getElementById("div-canvas");
+        this.divHome = document.getElementById("div-home");
     }
      registerKeyDownEventHandler(eventHandler, controller,player){
         document.onkeydown = function (e) {
@@ -41,7 +47,7 @@ class GameController {
 
             })
             .catch((error)=>{console.log("Error on game start: "+error)});
-        },150)
+        },this.configurations.room.frameRateInterval)
     }
 
     registerBackEndError()
@@ -56,12 +62,15 @@ class GameController {
         //requestAnimationFrame(scope.renderCanvasObjects(scope));
     }
     renderCanvas(scope){
-        this.canvasController.initialize();
+        this.canvasController.initialize(this.configurations.room.width,this.configurations.room.height,this.configurations.room.backgroundColor);
     }
      renderSnakes(scope){
         if(scope.canvasObjects.players!=null)
             for(let player of scope.canvasObjects.players)
+            {
+            //scope.canvasController.clear(position, size)
                 scope.canvasController.drawPath(player.snake.color, player.snake.borderColor, player.snake.path, player.snake.headSize);
+            }
     }
      renderFoods(){
 
@@ -69,21 +78,6 @@ class GameController {
     functionRenderScore(){
 
     }
-
-    connect(hub){
-
-        hub.start().catch( e => {
-                this.sleep(5000);
-                console.log("Reconnecting Socket");
-                this.connect(hub);
-            }
-        )
-    }
-    sleep(milliseconds) {
-        return new Promise(resolve => setTimeout(resolve, milliseconds));
-    }
-
-
     registerOnSnakeMovedEventHandler(scope)
     {
         this.hub.on("SnakeMoved", function (movementTracker) {
@@ -96,5 +90,14 @@ class GameController {
         });
     }
 
-
+    async ShowCanvas() {
+        this.divCanvas.style.display = 'block';
+        this.divHome.style.display='none';
+        this.canvasController.display();
+    }
+    async HideCanvas(){
+        this.divHome.style.display = 'block';
+        this.divCanvas.style.display='none';
+        this.canvasController.hide();
+    }
 }

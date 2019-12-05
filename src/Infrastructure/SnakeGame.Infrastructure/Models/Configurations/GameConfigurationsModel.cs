@@ -1,4 +1,6 @@
-﻿namespace SnakeGame.Infrastructure.Models.Configurations
+﻿using System.Collections.Generic;
+
+namespace SnakeGame.Infrastructure.Models.Configurations
 {
     public class GameConfigurationsModel
     {
@@ -6,7 +8,7 @@
         public RoomConfigurationModel RoomConfiguration { get; set; }
         public FoodConfigurationModel FoodConfiguration {get;set;}
         public SnakeConfigurationModel SnakeConfiguration{get;set;}
-
+        
         public class RoomConfigurationModel
         {
             public int MaxFoods { get; set; }

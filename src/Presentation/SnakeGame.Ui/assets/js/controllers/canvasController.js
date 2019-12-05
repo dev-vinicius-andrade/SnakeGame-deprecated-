@@ -36,10 +36,20 @@ class  CanvasController{
     }
     initialize(width,height,backgroundColor)
     {
+        this.canvasElement.width = width;
+        this.canvasElement.height=height;
         this.context.beginPath();
         this.context.fillStyle =backgroundColor;
         this.context.rect(0,0,width,height);
         this.context.fill();
         this.context.closePath();
+    }
+    display()
+    {
+        this.canvasElement.style.display='block';
+    }
+    hide()
+    {
+        this.canvasElement.style.display='none';
     }
 }

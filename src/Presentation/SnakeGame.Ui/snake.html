@@ -16,9 +16,16 @@
     <script type="text/javascript" src="assets/js/snakeGame.js"></script>
 </head>
 <body>
-    <div id="gameWrapper" class="middle">
-        <canvas id="snakeCanvas" width="500" height="500"></canvas>
-        <button id="playButton" class="customButtons" onclick="JoinGame();">Play</button>
+    <div id="div-home">
+        <div id="joinGameWrapper">
+        <h1 id="gameName"><a class="javascriptColor">JS</a><a class="nakeColor">nake.</a><a class="netCoreColor">net</a></h1>
+        <input placeholder="Type your name..." type="text" class="inputText block roundBorders" id="playerNameInput">
+        <button id="playNewRoomButton" class="customButtons block roundBorders margin-top-30 greenColor" onclick="JoinNewRoom();">Join in New Room</button>
+        <button id="playExistingRoomButton" class="customButtons block roundBorders  margin-top-30 blackColor" onclick="JoinExistingRoom();">Join in Existing Room</button>
+        </div>
+    </div>
+    <div id="div-canvas">
+        <canvas id="snakeCanvas" class="middle" ></canvas>
     </div>
 </body>
 </html>

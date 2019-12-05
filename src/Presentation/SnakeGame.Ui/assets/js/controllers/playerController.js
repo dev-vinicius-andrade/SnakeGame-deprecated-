@@ -8,9 +8,9 @@ class PlayerController {
     registerEvents(){
         this.onPlayerJoined(this);
     }
-    async new(name){
+    async new(name,roomId){
       let player = await this.hub
-            .invoke("New",name).catch((error)=>console.log(error));
+            .invoke("New",name, roomId).catch((error)=>console.log(error));
         return player;
     }
     async disconnectPlayer(player)

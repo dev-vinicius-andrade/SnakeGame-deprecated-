@@ -59,7 +59,8 @@ namespace SnakeGame.Services
                 {
                     Width = _gameData.Configurations.RoomConfiguration.Width,
                     Height = _gameData.Configurations.RoomConfiguration.Height,
-                    BackgroundColor = _gameData.Configurations.RoomConfiguration.BackgroundColor
+                    BackgroundColor = _gameData.Configurations.RoomConfiguration.BackgroundColor,
+                    FrameRateInterval =  _gameData.Configurations.GameFrameRateMilliSeconds
                 }
             };
             

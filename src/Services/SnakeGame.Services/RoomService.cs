@@ -56,7 +56,9 @@ namespace SnakeGame.Services
         {
             lock (room)
             {
-                return   room.IsAvailable && (room.Players.Count < _gameData.Configurations.RoomConfiguration.MaxPlayers);
+                return   room.IsAvailable 
+                         &&(room.ConnectOnlyWithGuid ==false)
+                         &&(room.Players.Count < _gameData.Configurations.RoomConfiguration.MaxPlayers);
             }
         }
 

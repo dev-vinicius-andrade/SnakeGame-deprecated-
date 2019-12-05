@@ -28,15 +28,16 @@ namespace SnakeGame.Api.Hubs
             _playerService = playerService;
         }
 
-
-        public ConfigurationsModel GetConfigurations()
+        public override Task OnConnectedAsync()
         {
-            return _gameService.GetConfigurations();
+            Clients.Caller.SendCoreAsync("Configurations", new object[]{_gameService.GetConfigurations()});
+            return base.OnConnectedAsync();
         }
+
 
         public  void Start(Guid roomId)
         {
-            _gameService.Configure(Clients, roomId, Context.UserIdentifier);
+            _gameService.Configure(Clients, roomId, Context.ConnectionId);
             _gameService.Start();
 
         }
@@ -57,7 +58,7 @@ namespace SnakeGame.Api.Hubs
         public void DirectionChanged(Guid roomGuid, PositionModel newDirection)
         {
             var room = _roomService.Get(roomGuid);
-            var player = _playerService.Get(room, Context.UserIdentifier);
+            var player = _playerService.Get(room, Context.ConnectionId);
             player.Snake.Direction = newDirection;
         }
 
@@ -73,14 +74,14 @@ namespace SnakeGame.Api.Hubs
 
             }
         }
-        public PlayerModel New(string name)
+        public PlayerModel New(string name,string roomId)
         {
             try
             {
-                var player = _playerService.New(Context.UserIdentifier, name);
 
-                //Clients.AllExcept(player.Id).SendCoreAsync("PlayerJoined", new object[] {player});
+                var player = _playerService.New(Context.ConnectionId, name,roomId);
                 return player;
+                
             }
             catch (Exception ex)
             {
@@ -95,7 +96,7 @@ namespace SnakeGame.Api.Hubs
         {
             try
             {
-                return _roomService.Get(roomGuid).Players.Where(p => p.Id != Context.UserIdentifier).ToList();
+                return _roomService.Get(roomGuid).Players.Where(p => p.Id != Context.ConnectionId).ToList();
             }
             catch (Exception ex)
             {
@@ -108,7 +109,7 @@ namespace SnakeGame.Api.Hubs
         {
             try
             {
-                _playerService.Disconnect(player.RoomId, Context.UserIdentifier);
+                _playerService.Disconnect(player.RoomId, Context.ConnectionId);
                 var a = "";
             }
             catch (Exception e)
