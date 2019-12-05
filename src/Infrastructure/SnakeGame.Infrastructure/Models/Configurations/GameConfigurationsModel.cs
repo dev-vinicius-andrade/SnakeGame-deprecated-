@@ -14,12 +14,22 @@
             public int Width { get; set; }
             public int Height { get; set; }
             public string BackgroundColor { get; set; }
+            public InfosConfigurationModel Infos { get; set; }
+
+            public class InfosConfigurationModel
+            {
+                public int Width { get; set; }
+                public int Height { get; set; }
+                public string BackgroundColor { get; set; }
+                public double Opacity { get; set; }
+            }
         }
         public class SnakeConfigurationModel
         {
             public int RotationSpeed{get;set;}
             public int Speed{get;set;}
             public int HeadSize{get;set;}
+            public int InitialSnakeSize { get; set; }
         }
         public class FoodConfigurationModel
         {

@@ -13,8 +13,6 @@ namespace SnakeGame.Api.Helpers
     {
         public static void AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            var configurationFilesEntities = configuration.Get<ConfigurationFilesEntities>();
-
             services.AddScoped<FoodService>();
             services.AddScoped<GameService>();
             services.AddSingleton<GameData>();
@@ -23,9 +21,9 @@ namespace SnakeGame.Api.Helpers
             services.AddScoped<PlayerService>();
             services.AddSingleton<AdminService>();
             services.AddSingleton<UserManagement>();
-            services.AddSingleton(p=>configurationFilesEntities.GameConfigurations);
-            services.AddSingleton(p=>configurationFilesEntities.AvailableUsersConfiguration); 
-            services.AddSingleton(p=>configurationFilesEntities.PasswordEncryptConfiguration);
+            services.AddTransient(p=>configuration.Get<ConfigurationFilesEntities>().GameConfigurations);
+            services.AddSingleton(p=>configuration.Get<ConfigurationFilesEntities>().AvailableUsersConfiguration); 
+            services.AddSingleton(p=>configuration.Get<ConfigurationFilesEntities>().PasswordEncryptConfiguration);
         }
         public static void AddSwagger(this IServiceCollection services , IConfiguration configuration, string apiName, OpenApiInfo apiInfo)
         {

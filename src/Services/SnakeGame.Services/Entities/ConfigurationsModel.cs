@@ -1,4 +1,6 @@
-﻿namespace SnakeGame.Services.Entities
+﻿using SnakeGame.Infrastructure.Models.Configurations;
+
+namespace SnakeGame.Services.Entities
 {
     public class ConfigurationsModel
     {
@@ -10,6 +12,7 @@
             public int Height { get; set; }
             public object BackgroundColor { get; set; }
             public int FrameRateInterval { get; set; }
+            public GameConfigurationsModel.RoomConfigurationModel.InfosConfigurationModel Infos { get; set; }
         }
     }
 }

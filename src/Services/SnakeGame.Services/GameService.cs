@@ -58,7 +58,8 @@ namespace SnakeGame.Services
                     Width = _gameData.Configurations.RoomConfiguration.Width,
                     Height = _gameData.Configurations.RoomConfiguration.Height,
                     BackgroundColor = _gameData.Configurations.RoomConfiguration.BackgroundColor,
-                    FrameRateInterval =  _gameData.Configurations.GameFrameRateMilliSeconds
+                    FrameRateInterval =  _gameData.Configurations.GameFrameRateMilliSeconds,
+                    Infos = _gameData.Configurations.RoomConfiguration.Infos
                 }
             };
             
@@ -68,15 +69,24 @@ namespace SnakeGame.Services
         public bool IsPlayerAlive()=> _isConfigured 
             ?_player.Alive
             : throw new Exception("Before anything, you MUST call Configure method");
-
-
-        public SnakeMovementTracker  MovePlayer()
+        public void  MovePlayer()
         { 
             var movementTracker = _snakeService.Move(_player.Snake, _player.Snake.Direction);
-            _clients.Caller.SendCoreAsync("SnakeMoved", new object[]{ _room});
-            //_clients.Caller.SendCoreAsync("EnemyMoved", new object[] { movementTracker });
-            return movementTracker;
+            var foodColision = GetFoodColision(movementTracker.Snake);
+            if (foodColision != null)
+            {
+                _snakeService.Add(foodColision,  movementTracker.Snake);
+                _foodService.RemoveFood(_room,foodColision);
+            }
+            
+            
         }
+
+        private FoodModel GetFoodColision(SnakeModel snake)
+        {
+            return  _foodService.Get(_room, snake.CurrentlyPosition);
+        }
+
 
         public void Start()
         {
@@ -85,8 +95,9 @@ namespace SnakeGame.Services
 
                 if (IsPlayerAlive())
                 {
+                    _foodService.GenerateFood(_room);
                     MovePlayer();
-                    //FrameRateDelay();
+                    _clients.Caller.SendCoreAsync("SnakeMoved", new object[]{ new GameModel(_room) });
                 }
 
             }
@@ -95,5 +106,6 @@ namespace SnakeGame.Services
                 _clients.Caller.SendCoreAsync("BackendError", new object[] { ex });
             }
         }
+
     }
 }

@@ -10,6 +10,7 @@ namespace SnakeGame.Infrastructure.Models
         {
             Players = new List<PlayerModel>();
             Foods = new List<FoodModel>();
+            Score = new List<ScoreModel>();
             IsAvailable = isAvailable;
             ConnectOnlyWithGuid = connectOnlyWithGuid;
         }
@@ -19,6 +20,7 @@ namespace SnakeGame.Infrastructure.Models
         public DateTime DateCreated { get; set; }
         public List<PlayerModel> Players { get; set; }
         public List<FoodModel> Foods { get; set; }
+        public List<ScoreModel> Score { get; set; }
 
         public void LockRoom()=>IsAvailable = false;
         public void DislockRoom()=>IsAvailable = true;

@@ -12,6 +12,7 @@ namespace SnakeGame.Infrastructure.Models
         public string Name { get; set; }
         public string Id { get; set; }
         public  bool Alive { get; set; }
+        public ScoreModel Score { get; set; }
         public SnakeModel Snake { get; set; }
     }
 }

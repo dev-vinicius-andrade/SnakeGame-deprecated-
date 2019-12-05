@@ -33,12 +33,12 @@ window.onload = async function() {
                 canvasController,
                 new FoodsController(canvasController, gameHub),
                 new PlayerController(gameHub), new SnakeController(gameHub, canvasController));
-        return await ConfigureGameDispose(gameController);
+        return gameController;
     }
 
-    async function ConfigureGameDispose(game) {
+    async function ConfigureGameDispose(game, player) {
         window.addEventListener("beforeunload", async function (e) {
-            await game.playerController.disconnectPlayer();
+            await game.playerController.disconnectPlayer(player);
         });
         return game;
     }
@@ -46,12 +46,13 @@ window.onload = async function() {
     this.JoinGame = async function(roomId){
             let game = await GameSetup();
             let player = await game.connectPlayer(playerInput.value, roomId);
+            await  ConfigureGameDispose(game,player);
             if(player!==null || player !==undefined) {
-                await game.ShowCanvas();
+                await game.ShowGame();
                 await game.registerEvents(player);
                 await game.start(player);
             }else{
-                await game.HideCanvas();
+                await game.HideGame();
                 await RoomIsNotAvailable();
             }
      }

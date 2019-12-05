@@ -25,9 +25,16 @@ class  CanvasController{
     {
         this.context.beginPath();
         this.context.fillStyle =color;
+
         this.context.rect(position.x,position.y,size,size);
         this.context.fill();
         this.context.closePath();
+        if(borderColor)
+        {
+            this.context.strokeStyle = borderColor;
+            this.context.lineWidth = 1;
+            this.context.stroke();
+        }
     }
 
      clear(position, size)

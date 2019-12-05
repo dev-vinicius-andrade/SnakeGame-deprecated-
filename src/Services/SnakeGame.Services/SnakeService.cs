@@ -42,27 +42,43 @@ namespace SnakeGame.Services
         private PositionModel BoundaryReachPositionRecalculator(PositionModel position)
         {
             var recalculatedPosition = position.Clone();
-            if (position.X >= _gameData.Configurations.RoomConfiguration.Width)
+            if (position.X > _gameData.Configurations.RoomConfiguration.Width)
                 recalculatedPosition.X = 0;
-            if (position.X <=0)
+            if (position.X <0)
                 recalculatedPosition.X = _gameData.Configurations.RoomConfiguration.Width;
-            if (position.Y <= 0)
+            if (position.Y < 0)
                 recalculatedPosition.Y = _gameData.Configurations.RoomConfiguration.Height;
-            if (position.Y >= _gameData.Configurations.RoomConfiguration.Height)
+            if (position.Y > _gameData.Configurations.RoomConfiguration.Height)
                 recalculatedPosition.Y = 0;
             return recalculatedPosition;
         }
-        private int GetDirectionAxisSpeed(int axisValue) => axisValue * _gameData.Configurations.SnakeConfiguration.Speed;
+        private int GetDirectionAxisSpeed(int axisValue) => axisValue * (_gameData.Configurations.SnakeConfiguration.Speed+_gameData.Configurations.SnakeConfiguration.HeadSize);
 
         public ResponseModel ChangeSpeed(int value)
         {
             lock (_gameData.Configurations)
             {
                 if (value == _gameData.Configurations.SnakeConfiguration.Speed)
-                    return ResponseHelper.CreateBadRequest("Speed is alaready at this value");
+                    return ResponseHelper.CreateBadRequest("Speed is already at this value");
                 _gameData.Configurations.SnakeConfiguration.Speed = value;
                 return ResponseHelper.CreateOk("Speed Changed");
             }
+        }
+
+        public ResponseModel ChangeInitialSize(int value)
+        {
+            lock (_gameData.Configurations)
+            {
+                if (value == _gameData.Configurations.SnakeConfiguration.InitialSnakeSize)
+                    return ResponseHelper.CreateBadRequest("Initial Size is already at this value");
+                _gameData.Configurations.SnakeConfiguration.InitialSnakeSize = value;
+                return ResponseHelper.CreateOk("Initial Size Changed");
+            }
+        }
+
+        public void Add(FoodModel foodColision, SnakeModel snake)
+        {
+            snake.Path.Add(foodColision.Position);
         }
     }
 }

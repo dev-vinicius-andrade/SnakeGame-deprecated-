@@ -92,3 +92,10 @@ body{
     margin: 0;
     font-family: Consolas,monaco,monospace;
 }
+#div-infos{
+    with:250px;
+    height: 250px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}

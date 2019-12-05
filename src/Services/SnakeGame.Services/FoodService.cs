@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using SnakeGame.Domain.Food;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
@@ -69,6 +70,29 @@ namespace SnakeGame.Services
                return room.Foods.Count < _gameData.Configurations.RoomConfiguration.MaxFoods;
             }
             
+        }
+
+        public FoodModel Get(Room room, PositionModel snakeCurrentlyPosition)
+        {
+            lock (room)
+            {
+                return room.Foods.FirstOrDefault(p =>
+                    p.Position.X.Equals(snakeCurrentlyPosition.X) && p.Position.Y.Equals(snakeCurrentlyPosition.Y));
+            }
+        }
+        public void RemoveFood(Room room, FoodModel food)
+        {
+            lock (room)
+            {
+                try
+                {
+                    room.Foods.Remove(food);
+                }
+                catch (Exception e)
+                {
+                }
+
+            }
         }
     }
 }

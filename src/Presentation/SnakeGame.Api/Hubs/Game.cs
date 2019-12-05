@@ -48,8 +48,6 @@ namespace SnakeGame.Api.Hubs
             }
             catch (Exception ex)
             {
-
-
             }
         }
         public void DirectionChanged(Guid roomGuid, PositionModel newDirection)
@@ -59,18 +57,7 @@ namespace SnakeGame.Api.Hubs
             player.Snake.Direction = newDirection;
         }
 
-        public List<FoodModel> GetAll(Guid roomGuid)
-        {
-            try
-            {
-                return _roomService.Get(roomGuid).Foods;
-            }
-            catch (Exception ex)
-            {
-                return null;
 
-            }
-        }
         public PlayerModel New(string name,string roomId)
         {
             try
@@ -89,30 +76,15 @@ namespace SnakeGame.Api.Hubs
             return null;
         }
 
-        public List<PlayerModel> GetEnemies(Guid roomGuid)
+
+        public void Disconnect(Guid roomId)
         {
             try
             {
-                return _roomService.Get(roomGuid).Players.Where(p => p.Id != Context.ConnectionId).ToList();
-            }
-            catch (Exception ex)
-            {
-                return null;
-
-            }
-        }
-
-        public void Disconnect(PlayerModel player)
-        {
-            try
-            {
-                _playerService.Disconnect(player.RoomId, Context.ConnectionId);
-                var a = "";
+                _playerService.Disconnect(roomId, Context.ConnectionId);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
             }
         }
 

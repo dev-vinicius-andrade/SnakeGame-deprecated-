@@ -6,7 +6,8 @@ class GameController {
     playerController;
     snakeController;
     count;
-    divCanvas;
+    divGame;
+    divInfos;
     divHome;
     configurations;
     constructor(hub,configurations,canvasController,foodsController,playerController,snakeController) {
@@ -18,7 +19,8 @@ class GameController {
         this.playerController = playerController;
         this.snakeController = snakeController;
         this.count=0;
-        this.divCanvas = document.getElementById("div-canvas");
+        this.divGame = document.getElementById("div-game");
+        this.divInfos = document.getElementById("div-infos");
         this.divHome = document.getElementById("div-home");
     }
      registerKeyDownEventHandler(eventHandler, controller,player){
@@ -90,14 +92,25 @@ class GameController {
         });
     }
 
-    async ShowCanvas() {
-        this.divCanvas.style.display = 'block';
+    async ShowGame() {
+        this.divGame.style.display = 'block';
+        this.divGame.style.backgroundColor = this.configurations.room.backgroundColor;
         this.divHome.style.display='none';
         this.canvasController.display();
+        await this.showInfos();
     }
-    async HideCanvas(){
+    async showInfos(){
+        this.divInfos.style.backgroundColor = this.configurations.room.infos.backgroundColor;
+        this.divInfos.style.opacity = this.configurations.room.infos.opacity;
+        this.divInfos.style.width = this.configurations.room.infos.width;
+        this.divInfos.style.height = this.configurations.room.infos.height;
+        this.divInfos.style.position ='absolute';
+        this.divInfos.style.top =0;
+        this.divInfos.style.rigth =0;
+    }
+    async HideGame(){
         this.divHome.style.display = 'block';
-        this.divCanvas.style.display='none';
+        this.divGame.style.display='none';
         this.canvasController.hide();
     }
 }

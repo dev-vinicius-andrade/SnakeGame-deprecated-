@@ -15,9 +15,9 @@ class PlayerController {
     }
     async disconnectPlayer(player)
     {
-        if(this.player)
+        if(player)
             await this.hub
-                .invoke("Disconnect",player).catch((error)=>console.log(error));
+                .invoke("Disconnect",player.roomId).catch((error)=>console.log(error));
     }
     onPlayerJoined(scope)
     {

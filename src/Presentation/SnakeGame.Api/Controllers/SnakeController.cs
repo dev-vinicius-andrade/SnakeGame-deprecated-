@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using SnakeGame.Api.Hubs;
 using SnakeGame.Domain.Admin;
@@ -31,6 +32,15 @@ namespace SnakeGame.Api.Controllers
                 return new JsonResult(ResponseHelper.DefaultUnauthorized);
 
             var result = _snakeService.ChangeSpeed(value);
+            return new JsonResult(result){StatusCode = result.Code};
+        }
+        [HttpPost("changeInitialSize")]
+        public JsonResult ChangeInitialSize(int value)
+        {
+            if(!_userManagement.IsUserConnected())
+                return new JsonResult(ResponseHelper.DefaultUnauthorized);
+
+            var result = _snakeService.ChangeInitialSize(value);
             return new JsonResult(result){StatusCode = result.Code};
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
@@ -37,12 +39,29 @@ namespace SnakeGame.Services
                     RoomId = availableRoom.RoomGuid,
                     Id = connectionId,
                     Name = name,
-                    Snake = _snakeService.Create(_roomService.GetRandomAvailableColor(availableRoom),
-                        _gameData.Configurations.RoomConfiguration.BackgroundColor)
+                    Score = new ScoreModel(),
+                    Snake = _snakeService.Create(
+                        color:_roomService.GetRandomAvailableColor(availableRoom),
+                        borderColor:LighterColor(_gameData.Configurations.RoomConfiguration.BackgroundColor,0.5))
                 };
                 availableRoom.Players.Add(playerModel);
                 return playerModel;
             }
+        }
+
+        private string LighterColor(string hexadecimalColor,double level)
+        {
+            var colorConverted = new ColorConverter().ConvertFrom(hexadecimalColor);
+            if (colorConverted != null)
+            {
+                var color = (Color) colorConverted;
+                var lightedColor = Color.FromArgb(color.A, (int) (color.R * level), (int) (color.G * level),
+                    (int) (color.B * level));
+
+                return (lightedColor.ToArgb() & 0x00FFFFFF).ToString("X6");
+            }
+
+            return hexadecimalColor;
         }
 
         public void Disconnect(Guid roomId,string playerId)

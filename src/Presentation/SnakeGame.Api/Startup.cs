@@ -29,13 +29,13 @@ namespace SnakeGame.Api
         }
 
         public IConfiguration BuildConfiguration() => new ConfigurationBuilder()
-            .SetBasePath($"{AppDomain.CurrentDomain.BaseDirectory}Configurations\\Files\\")
-            .AddJsonFile($"logging.json")
-            .AddJsonFile($"hubOptions.json")
-            .AddJsonFile($"appsettings.json")
-            .AddJsonFile($"gameConfigurations.json")
-            .AddJsonFile($"availableUsersConfiguration.json")
-            .AddJsonFile($"passwordEncryptConfiguration.json")
+            .SetBasePath(basePath:$"{AppDomain.CurrentDomain.BaseDirectory}Configurations\\Files\\")
+            .AddJsonFile(path:$"logging.json", optional:false,reloadOnChange:true)
+            .AddJsonFile(path:$"hubOptions.json",optional:false,reloadOnChange:true)
+            .AddJsonFile(path:$"appsettings.json",optional:false,reloadOnChange:true)
+            .AddJsonFile(path:$"gameConfigurations.json",optional:false,reloadOnChange:true)
+            .AddJsonFile(path:$"availableUsersConfiguration.json")
+            .AddJsonFile(path:$"passwordEncryptConfiguration.json")
             .Build();
 
         public void ConfigureServices(IServiceCollection services)
@@ -45,7 +45,7 @@ namespace SnakeGame.Api
                 p.KeepAliveInterval=_appSettings.HubOptions.KeepAliveInterval;
                 p.ClientTimeoutInterval=_appSettings.HubOptions.ClientTimeoutInterval;
             });
-            services.AddSwagger(_configuration,_apiName,_apiInfo);
+            services.AddSwagger(_configuration, _apiName, _apiInfo);
             services.AddDependencies(_configuration);
             services.ConfigureCors(CorsPolicyName);
         }
@@ -68,6 +68,9 @@ namespace SnakeGame.Api
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<Game>("/game");
+                endpoints.MapHub<Food>("/food");
+                endpoints.MapHub<Snake>("/snake");
+                endpoints.MapHub<Player>("/player");
             });
         }
     }
