@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SnakeGame.Domain.Snake.Enums;
+﻿using SnakeGame.Domain.Snake.Enums;
 
 namespace SnakeGame.Domain.Snake.Helpers
 {

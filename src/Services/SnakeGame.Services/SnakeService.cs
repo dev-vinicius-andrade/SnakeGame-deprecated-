@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using SnakeGame.Domain.Snake;
+﻿using SnakeGame.Domain.Snake;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
 using SnakeGame.Services.Entities;
@@ -55,5 +53,16 @@ namespace SnakeGame.Services
             return recalculatedPosition;
         }
         private int GetDirectionAxisSpeed(int axisValue) => axisValue * _gameData.Configurations.SnakeConfiguration.Speed;
+
+        public ResponseModel ChangeSpeed(int value)
+        {
+            lock (_gameData.Configurations)
+            {
+                if (value == _gameData.Configurations.SnakeConfiguration.Speed)
+                    return ResponseHelper.CreateBadRequest("Speed is alaready at this value");
+                _gameData.Configurations.SnakeConfiguration.Speed = value;
+                return ResponseHelper.CreateOk("Speed Changed");
+            }
+        }
     }
 }

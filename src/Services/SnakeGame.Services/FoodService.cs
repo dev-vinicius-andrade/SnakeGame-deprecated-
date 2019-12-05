@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using SnakeGame.Domain.Food;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;

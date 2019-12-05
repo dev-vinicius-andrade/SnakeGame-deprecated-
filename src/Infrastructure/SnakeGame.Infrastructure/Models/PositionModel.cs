@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SnakeGame.Infrastructure.Models
+﻿namespace SnakeGame.Infrastructure.Models
 {
     public class PositionModel
     {

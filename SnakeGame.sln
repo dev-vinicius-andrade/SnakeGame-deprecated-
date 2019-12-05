@@ -34,15 +34,17 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SnakeGame.Ui", "src\Present
 		SlnRelativePath = "src\Presentation\SnakeGame.Ui\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Infrastructure", "src\Infrastructure\SnakeGame.Infrastructure\SnakeGame.Infrastructure.csproj", "{7194C91E-87CD-4351-B6B0-EE0178A0AA3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Infrastructure", "src\Infrastructure\SnakeGame.Infrastructure\SnakeGame.Infrastructure.csproj", "{7194C91E-87CD-4351-B6B0-EE0178A0AA3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Services", "src\Services\SnakeGame.Services\SnakeGame.Services.csproj", "{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Services", "src\Services\SnakeGame.Services\SnakeGame.Services.csproj", "{FBA29E23-9DB8-4DBC-846A-4EA4CCC2DDB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Domain.Player", "src\Domain\SnakeGame.Domain.Player\SnakeGame.Domain.Player.csproj", "{DC169735-BEA4-4338-A314-50D4ED8D1E5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Domain.Player", "src\Domain\SnakeGame.Domain.Player\SnakeGame.Domain.Player.csproj", "{DC169735-BEA4-4338-A314-50D4ED8D1E5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Domain.Food", "src\Domain\SnakeGame.Domain.Food\SnakeGame.Domain.Food.csproj", "{D1F11225-008B-4E2C-95BD-DAA1BE54D85C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Domain.Food", "src\Domain\SnakeGame.Domain.Food\SnakeGame.Domain.Food.csproj", "{D1F11225-008B-4E2C-95BD-DAA1BE54D85C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Domain.Snake", "src\Domain\SnakeGame.Domain.Snake\SnakeGame.Domain.Snake.csproj", "{339B3208-1CC9-4842-B303-254030019F1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Domain.Snake", "src\Domain\SnakeGame.Domain.Snake\SnakeGame.Domain.Snake.csproj", "{339B3208-1CC9-4842-B303-254030019F1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Domain.Admin", "src\Domain\SnakeGame.Domain.Admin\SnakeGame.Domain.Admin.csproj", "{EFB892D7-4D8D-4B24-AB80-89521E7D37D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +80,10 @@ Global
 		{339B3208-1CC9-4842-B303-254030019F1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{339B3208-1CC9-4842-B303-254030019F1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{339B3208-1CC9-4842-B303-254030019F1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB892D7-4D8D-4B24-AB80-89521E7D37D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB892D7-4D8D-4B24-AB80-89521E7D37D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB892D7-4D8D-4B24-AB80-89521E7D37D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB892D7-4D8D-4B24-AB80-89521E7D37D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{DC169735-BEA4-4338-A314-50D4ED8D1E5D} = {A615A3CE-1901-473B-9AB5-37503AC9341B}
 		{D1F11225-008B-4E2C-95BD-DAA1BE54D85C} = {A615A3CE-1901-473B-9AB5-37503AC9341B}
 		{339B3208-1CC9-4842-B303-254030019F1B} = {A615A3CE-1901-473B-9AB5-37503AC9341B}
+		{EFB892D7-4D8D-4B24-AB80-89521E7D37D7} = {A615A3CE-1901-473B-9AB5-37503AC9341B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80B0C69F-BBCB-4A9D-9867-DAED94D4EEFE}

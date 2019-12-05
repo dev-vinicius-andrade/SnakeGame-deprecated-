@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using SnakeGame.Domain.Food;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
 using SnakeGame.Services;
-using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Api.Hubs
 {
-    public class GameHub:Hub
+    public class Game:Hub
     {
         private readonly GameService _gameService;
 
@@ -20,7 +17,7 @@ namespace SnakeGame.Api.Hubs
         private readonly RoomService _roomService;
         private readonly PlayerService _playerService;
 
-        public GameHub(GameService gameService,FoodService foodService,RoomService roomService,PlayerService playerService)
+        public Game(GameService gameService,FoodService foodService,RoomService roomService,PlayerService playerService)
         {
             _gameService = gameService;
             _foodService = foodService;

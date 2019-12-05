@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using SnakeGame.Domain.Food;
 using SnakeGame.Domain.Snake;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;

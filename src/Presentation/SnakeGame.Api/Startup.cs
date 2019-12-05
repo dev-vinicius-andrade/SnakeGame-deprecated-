@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,9 +8,6 @@ using Microsoft.OpenApi.Models;
 using SnakeGame.Api.Configurations;
 using SnakeGame.Api.Helpers;
 using SnakeGame.Api.Hubs;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Services;
-using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Api
 {
@@ -71,7 +67,7 @@ namespace SnakeGame.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<GameHub>("/game");
+                endpoints.MapHub<Game>("/game");
             });
         }
     }

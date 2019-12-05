@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SnakeGame.Infrastructure.Models.Configurations
+﻿namespace SnakeGame.Infrastructure.Models.Configurations
 {
     public class GameConfigurationsModel
     {

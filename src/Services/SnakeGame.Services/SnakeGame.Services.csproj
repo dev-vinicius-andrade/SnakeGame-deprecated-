@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Admin\SnakeGame.Domain.Admin.csproj" />
     <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Food\SnakeGame.Domain.Food.csproj" />
     <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Player\SnakeGame.Domain.Player.csproj" />
     <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Snake\SnakeGame.Domain.Snake.csproj" />

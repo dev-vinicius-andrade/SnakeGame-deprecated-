@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnakeGame.Services.Entities
+﻿namespace SnakeGame.Services.Entities
 {
     public class ConfigurationsModel
     {
