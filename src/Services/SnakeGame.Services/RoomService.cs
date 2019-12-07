@@ -21,7 +21,7 @@ namespace SnakeGame.Services
             lock (_gameData)
             {
                 var room = _gameData.Rooms.FirstOrDefault(p => p.RoomGuid == roomGuid);
-                return room ?? throw new Exception($"Room does not exists!");
+                return room;
             }
         }
         public Room New()

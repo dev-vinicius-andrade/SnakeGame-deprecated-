@@ -28,7 +28,7 @@ namespace SnakeGame.Services
 
                 var food = new FoodGenerator(_gameData.Configurations).Generate(
                     _roomService.GetRandomAvailableColor(room));
-                if (Exists(room, food) || ExistsNearBy(room, food))
+                if (Exists(room, food) || ExistsNearBy(room, food.Position))
                     return GenerateFood(room);
 
                 room.Foods.Add(food);
@@ -45,17 +45,17 @@ namespace SnakeGame.Services
             
         }
 
-        private bool ExistsNearBy(Room room, FoodModel food)
+        private bool ExistsNearBy(Room room, PositionModel position,int?delta=null)
         {
             lock (room)
             {
-                var foodSize = _gameData.Configurations.FoodConfiguration.FoodSize;
+                var deltaComparison = delta??_gameData.Configurations.FoodConfiguration.FoodSize;
                 return room.Foods.Any(p =>
                 {
-                    var xPositionCompare = CalculationsHelper.Distance(p.Position.X.Value, food.Position.X.Value) <=
-                                           foodSize;
-                    var yPositionCompare = CalculationsHelper.Distance(p.Position.Y.Value, food.Position.Y.Value) <=
-                                           foodSize;
+                    var xPositionCompare = CalculationsHelper.Distance(p.Position.X.Value, position.X.Value) <=
+                                           deltaComparison;
+                    var yPositionCompare = CalculationsHelper.Distance(p.Position.Y.Value, position.Y.Value) <=
+                                           deltaComparison;
                     return xPositionCompare && yPositionCompare;
                 });
                 ;
@@ -72,12 +72,20 @@ namespace SnakeGame.Services
             
         }
 
-        public FoodModel Get(Room room, PositionModel snakeCurrentlyPosition)
+        public FoodModel Get(Room room, SnakeModel snake)
         {
             lock (room)
             {
-                return room.Foods.FirstOrDefault(p =>
-                    p.Position.X.Equals(snakeCurrentlyPosition.X) && p.Position.Y.Equals(snakeCurrentlyPosition.Y));
+                var foods =  room.Foods.Where(p => ExistsNearBy(room, snake.CurrentlyPosition, snake.HeadSize)).ToList();
+                if (!foods.Any())
+                    return null;
+
+                var food = foods.FirstOrDefault(p=> CalculationsHelper.Distance(foods.))
+
+
+
+
+                return null;
             }
         }
         public void RemoveFood(Room room, FoodModel food)

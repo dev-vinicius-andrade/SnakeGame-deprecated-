@@ -65,7 +65,6 @@ namespace SnakeGame.Services
             
         }
 
-        public void FrameRateDelay() => Task.Delay(_gameData.Configurations.GameFrameRateMilliSeconds);
         public bool IsPlayerAlive()=> _isConfigured 
             ?_player.Alive
             : throw new Exception("Before anything, you MUST call Configure method");
@@ -75,7 +74,7 @@ namespace SnakeGame.Services
             var foodColision = GetFoodColision(movementTracker.Snake);
             if (foodColision != null)
             {
-                _snakeService.Add(foodColision,  movementTracker.Snake);
+                _snakeService.Add(foodColision,  movementTracker.Snake); 
                 _foodService.RemoveFood(_room,foodColision);
             }
             
@@ -84,11 +83,11 @@ namespace SnakeGame.Services
 
         private FoodModel GetFoodColision(SnakeModel snake)
         {
-            return  _foodService.Get(_room, snake.CurrentlyPosition);
+            return  _foodService.Get(_room, snake);
         }
 
 
-        public void Start()
+        public void GameStatus()
         {
             try
             {
@@ -97,9 +96,10 @@ namespace SnakeGame.Services
                 {
                     _foodService.GenerateFood(_room);
                     MovePlayer();
-                    _clients.Caller.SendCoreAsync("SnakeMoved", new object[]{ new GameModel(_room) });
+                    
                 }
 
+                _clients.All.SendCoreAsync("GameChanged", new object[] { new GameModel(_room) });
             }
             catch (Exception ex)
             {

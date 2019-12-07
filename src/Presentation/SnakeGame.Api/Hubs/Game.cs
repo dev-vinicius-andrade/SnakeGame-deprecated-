@@ -32,10 +32,10 @@ namespace SnakeGame.Api.Hubs
         }
 
 
-        public  void Start(Guid roomId)
+        public  void GameStatus(Guid roomId, string playerId)
         {
-            _gameService.Configure(Clients, roomId, Context.ConnectionId);
-            _gameService.Start();
+            _gameService.Configure(Clients, roomId, playerId);
+            _gameService.GameStatus();
 
         }
 
@@ -50,43 +50,10 @@ namespace SnakeGame.Api.Hubs
             {
             }
         }
-        public void DirectionChanged(Guid roomGuid, PositionModel newDirection)
-        {
-            var room = _roomService.Get(roomGuid);
-            var player = _playerService.Get(room, Context.ConnectionId);
-            player.Snake.Direction = newDirection;
-        }
 
 
-        public PlayerModel New(string name,string roomId)
-        {
-            try
-            {
 
-                var player = _playerService.New(Context.ConnectionId, name,roomId);
-                return player;
-                
-            }
-            catch (Exception ex)
-            {
-
-
-            }
-
-            return null;
-        }
-
-
-        public void Disconnect(Guid roomId)
-        {
-            try
-            {
-                _playerService.Disconnect(roomId, Context.ConnectionId);
-            }
-            catch (Exception e)
-            {
-            }
-        }
+   
 
     }
 }

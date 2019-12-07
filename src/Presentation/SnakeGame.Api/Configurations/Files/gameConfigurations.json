@@ -2,9 +2,9 @@
   "GameConfigurations": {
     "GameFrameRateMilliSeconds": 200,
     "RoomConfiguration": {
-      "Width": 500,
-      "Height": 500,
-      "MaxFoods": 500,
+      "Width": 1024,
+      "Height": 768,
+      "MaxFoods": 2,
       "MaxPlayers": 2,
       "BackgroundColor": "#393E46",
       "Infos": {
@@ -16,7 +16,7 @@
     },
     "FoodConfiguration": {
       "FoodGenerationInterval": 50,
-      "FoodSize": 5
+      "FoodSize": 15
     },
     "SnakeConfiguration": {
       "RotationSpeed": 5,
