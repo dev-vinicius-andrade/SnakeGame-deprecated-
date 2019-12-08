@@ -1,14 +1,5 @@
 import Configurations from "../configurations/configurations.js";
 export default  class HubsService{
-    async configureSnakeHub() {
-       return await this.buildHub(Configurations.Integration.SnakeHub);
-
-    }
-
-    async  configurePlayerHub(){
-        return await this.buildHub(Configurations.Integration.PlayerHub);
-    }
-
     async  configureGameHub(){
         return  await this.buildHub(Configurations.Integration.GameHub,null,null);
     }

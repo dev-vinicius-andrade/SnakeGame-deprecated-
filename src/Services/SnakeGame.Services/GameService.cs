@@ -19,7 +19,7 @@ namespace SnakeGame.Services
         private IHubCallerClients _clients;
         private PlayerModel _player;
         private bool _isConfigured;
-        private Room _room;
+        private RoomModel _room;
 
 
         public GameService(
@@ -74,8 +74,9 @@ namespace SnakeGame.Services
             var foodColision = GetFoodColision(movementTracker.Snake);
             if (foodColision != null)
             {
-                _snakeService.Add(foodColision,  movementTracker.Snake); 
+                _snakeService.Add(movementTracker.Snake); 
                 _foodService.RemoveFood(_room,foodColision);
+                GameStatus();
             }
             
             

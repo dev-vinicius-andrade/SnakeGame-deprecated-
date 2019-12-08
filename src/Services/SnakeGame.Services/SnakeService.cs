@@ -31,8 +31,8 @@ namespace SnakeGame.Services
                     .TrackMovement(BoundaryReachPositionRecalculator(
                          position: new PositionModel
                          {
-                             X = currentlyPosition.X + GetDirectionAxisSpeed(direction.X.Value),
-                             Y = currentlyPosition.Y + GetDirectionAxisSpeed(direction.Y.Value),
+                             X = currentlyPosition.X + GetDirectionAxisMovement(direction.X.Value),
+                             Y = currentlyPosition.Y + GetDirectionAxisMovement(direction.Y.Value),
                              Angle = direction.Angle
                          },
                           direction: snake.Direction));
@@ -57,7 +57,8 @@ namespace SnakeGame.Services
                 recalculatedPosition.Y = 0;
             return recalculatedPosition;
         }
-        private int GetDirectionAxisSpeed(int axisValue) => axisValue * (_gameData.Configurations.SnakeConfiguration.Speed + _gameData.Configurations.SnakeConfiguration.HeadSize);
+
+        private int GetDirectionAxisMovement(int axisValue) => axisValue *  _gameData.Configurations.SnakeConfiguration.HeadSize;
 
         public ResponseModel ChangeSpeed(int value)
         {
@@ -81,16 +82,12 @@ namespace SnakeGame.Services
             }
         }
 
-        public void Add(FoodModel foodColision, SnakeModel snake)
+        public void Add(SnakeModel snake)
         {
-            snake.Path.Add(new PositionModel
-            {
-
-                X = foodColision.Position.X,
-                Y = foodColision.Position.Y,
-                Angle = 0
-
-            }) ;
+            var currentlyPosition = snake.CurrentlyPosition;
+            snake.Path =
+                new SnakeGenerator(_gameData.Configurations).GeneratePath(currentlyPosition, snake.Direction,
+                    snake.Path.Count);
         }
 
         public bool DirectionChanged(SnakeModel snake, PositionModel newDirection)

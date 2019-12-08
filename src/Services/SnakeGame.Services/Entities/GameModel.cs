@@ -7,7 +7,7 @@ namespace SnakeGame.Services.Entities
 {
     public class GameModel
     {
-        public GameModel(Room room)
+        public GameModel(RoomModel room)
         {
             Score = room.Score;
             Foods = room.Foods;

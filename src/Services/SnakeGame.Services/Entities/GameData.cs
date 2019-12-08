@@ -11,8 +11,8 @@ namespace SnakeGame.Services.Entities
         public GameData(GameConfigurationsModel configurations)
         {
             Configurations = configurations;
-            Rooms = new List<Room>();
+            Rooms = new List<RoomModel>();
         }
-        public List<Room> Rooms { get; set; }
+        public List<RoomModel> Rooms { get; set; }
     }
 }

@@ -33,10 +33,10 @@ namespace SnakeGame.Domain.Snake
             var speed = _configurations.SnakeConfiguration.Speed;
             var initialPosition = GenerateInitialPosition();
             var initialDirection = RandomDirection();
-            var initialPath = GenerateInitialPath(
+            var initialPath = GeneratePath(
                 initialPosition: initialPosition,
                 initialDirection: initialDirection,
-                initialSize: _configurations.SnakeConfiguration.InitialSnakeSize);
+                pathSize: _configurations.SnakeConfiguration.InitialSnakeSize);
             
             return new SnakeModel
             {
@@ -53,16 +53,16 @@ namespace SnakeGame.Domain.Snake
         }
 
 
-        private IList<PositionModel> GenerateInitialPath(PositionModel initialPosition, PositionModel initialDirection, int initialSize)
+        public IList<PositionModel> GeneratePath(PositionModel initialPosition, PositionModel initialDirection, int pathSize)
         {
             var initialPath = new List<PositionModel>().AddEntity(initialPosition);
 
-            for (var size = 1; size <= initialSize; size++)
+            for (var size = 1; size <= pathSize; size++)
                 initialPath
                     .Add(new PositionModel
                     {
-                        X = initialPosition.X + (initialDirection.X + size)+_configurations.SnakeConfiguration.HeadSize,
-                        Y = initialPosition.Y + (initialDirection.Y + size)+_configurations.SnakeConfiguration.HeadSize,
+                        X = initialPosition.X + (initialDirection.X * size*_configurations.SnakeConfiguration.HeadSize),
+                        Y = initialPosition.Y + (initialDirection.Y * size*_configurations.SnakeConfiguration.HeadSize),
                         Angle = initialDirection.Angle
                     });
             return initialPath;

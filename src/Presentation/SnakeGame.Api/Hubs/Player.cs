@@ -5,17 +5,8 @@ using SnakeGame.Services;
 
 namespace SnakeGame.Api.Hubs
 {
-    public class Player:Hub
+    public partial class Game
     {
-        private readonly PlayerService _playerService;
-        private readonly RoomService _roomService;
-
-        public Player(RoomService roomService,PlayerService playerService)
-        {
-            _playerService = playerService;
-            _roomService = roomService;
-        }
-
         public PlayerModel New(string name, string roomId)
         {
             try
@@ -33,8 +24,6 @@ namespace SnakeGame.Api.Hubs
 
             return null;
         }
-
-
         public void Disconnect(Guid roomId)
         {
             try
@@ -44,6 +33,6 @@ namespace SnakeGame.Api.Hubs
             catch (Exception e)
             {
             }
-        }
+        } 
     }
 }

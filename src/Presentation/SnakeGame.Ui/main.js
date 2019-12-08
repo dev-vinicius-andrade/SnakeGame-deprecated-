@@ -9,8 +9,9 @@ window.onload = async function() {
 
     let hubsService = new  HubsService();
     let canvasModule = new CanvasModule(canvas);
-    let playerModule = new PlayerModule( await hubsService.configurePlayerHub(),new SnakeModule(await hubsService.configureSnakeHub(),canvasModule));
-    let gameModule = new GameModule(await hubsService.configureGameHub(), canvasModule,playerModule);
+    let gameHub = await hubsService.configureGameHub();
+    let playerModule = new PlayerModule(gameHub,new SnakeModule(gameHub,canvasModule));
+    let gameModule = new GameModule(gameHub, canvasModule,playerModule);
 
     async function JoinGame(roomId){
             let player = await playerModule.connectPlayer(await playerModule.getPlayerName(), roomId);

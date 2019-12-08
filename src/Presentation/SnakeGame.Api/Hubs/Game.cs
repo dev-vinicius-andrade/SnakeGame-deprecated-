@@ -9,18 +9,18 @@ using SnakeGame.Services;
 
 namespace SnakeGame.Api.Hubs
 {
-    public class Game:Hub
+    public partial class Game:Hub
     {
         private readonly GameService _gameService;
 
-        private readonly FoodService _foodService;
+        private readonly SnakeService _snakeService;
         private readonly RoomService _roomService;
         private readonly PlayerService _playerService;
 
-        public Game(GameService gameService,FoodService foodService,RoomService roomService,PlayerService playerService)
+        public Game(GameService gameService,SnakeService snakeService,RoomService roomService,PlayerService playerService)
         {
             _gameService = gameService;
-            _foodService = foodService;
+            _snakeService = snakeService;
             _roomService = roomService;
             _playerService = playerService;
         }
@@ -36,24 +36,7 @@ namespace SnakeGame.Api.Hubs
         {
             _gameService.Configure(Clients, roomId, playerId);
             _gameService.GameStatus();
-
         }
-
-        public void GenerateFood(string roomGuid)
-        {
-            try
-            {
-                var food = _foodService.GenerateFood(_roomService.Get(roomGuid.ToGuid()));
-                Clients.All.SendCoreAsync("FruitGenerated", new object[] { food });
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-
-
-   
-
+       
     }
 }

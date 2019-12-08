@@ -1,6 +1,6 @@
 {
   "GameConfigurations": {
-    "GameFrameRateMilliSeconds": 200,
+    "GameFrameRateMilliSeconds": 300,
     "RoomConfiguration": {
       "Width": 1024,
       "Height": 768,

@@ -78,7 +78,7 @@ namespace SnakeGame.Services
             }
         }
 
-        public PlayerModel Get(Room room, string playerId)
+        public PlayerModel Get(RoomModel room, string playerId)
         {
             lock (room)
             {

@@ -16,7 +16,7 @@ namespace SnakeGame.Services
             _gameData = gameData;
         }
 
-        public Room Get(Guid roomGuid)
+        public RoomModel Get(Guid roomGuid)
         {
             lock (_gameData)
             {
@@ -24,17 +24,17 @@ namespace SnakeGame.Services
                 return room;
             }
         }
-        public Room New()
+        public RoomModel New()
         {
             lock (_gameData)
             {
-                var room = new Room { RoomGuid = Guid.NewGuid(), DateCreated = DateTime.UtcNow };
+                var room = new RoomModel { RoomGuid = Guid.NewGuid(), DateCreated = DateTime.UtcNow };
                 _gameData.Rooms.Add(room);
                 return room;
             }
         }
 
-        public void RemoveRoom(Room room)
+        public void RemoveRoom(RoomModel room)
         {
             lock (_gameData)
             {
@@ -42,7 +42,7 @@ namespace SnakeGame.Services
             }
         }
 
-        public List<Room> AvailableRooms()
+        public List<RoomModel> AvailableRooms()
         {
             lock (_gameData)
             {
@@ -52,7 +52,7 @@ namespace SnakeGame.Services
 
 
 
-        public bool IsRoomAvailable(Room room)
+        public bool IsRoomAvailable(RoomModel room)
         {
             lock (room)
             {
@@ -62,7 +62,7 @@ namespace SnakeGame.Services
             }
         }
 
-        public string GetRandomAvailableColor(Room room)
+        public string GetRandomAvailableColor(RoomModel room)
         {
             lock (room)
             {
@@ -75,7 +75,7 @@ namespace SnakeGame.Services
         }
 
 
-        public IReadOnlyList<string> GetConnectedClientsIds(Room room)
+        public IReadOnlyList<string> GetConnectedClientsIds(RoomModel room)
         {
             lock (room)
             {

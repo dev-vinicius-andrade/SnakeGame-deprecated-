@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace SnakeGame.Infrastructure.Models
 {
-    public class Room
+    public class RoomModel
     {
-        public Room(bool isAvailable = true,bool connectOnlyWithGuid=false)
+        public RoomModel(bool isAvailable = true,bool connectOnlyWithGuid=false)
         {
             Players = new List<PlayerModel>();
             Foods = new List<FoodModel>();

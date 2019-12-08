@@ -68,9 +68,6 @@ namespace SnakeGame.Api
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<Game>("/game");
-                endpoints.MapHub<Food>("/food");
-                endpoints.MapHub<Snake>("/snake");
-                endpoints.MapHub<Player>("/player");
             });
         }
     }

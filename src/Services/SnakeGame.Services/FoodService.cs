@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SnakeGame.Domain.Food;
 using SnakeGame.Infrastructure.Helpers;
@@ -18,7 +19,7 @@ namespace SnakeGame.Services
             _roomService = roomService;
         }
 
-        public FoodModel GenerateFood(Room room)
+        public FoodModel GenerateFood(RoomModel room)
         {
             lock (room)
             {
@@ -28,7 +29,7 @@ namespace SnakeGame.Services
 
                 var food = new FoodGenerator(_gameData.Configurations).Generate(
                     _roomService.GetRandomAvailableColor(room));
-                if (Exists(room, food) || ExistsNearBy(room, food.Position))
+                if (Exists(room, food))
                     return GenerateFood(room);
 
                 room.Foods.Add(food);
@@ -36,7 +37,7 @@ namespace SnakeGame.Services
             }
         }
 
-        private bool Exists(Room room, FoodModel food)
+        private bool Exists(RoomModel room, FoodModel food)
         {
             lock (room)
             {
@@ -45,25 +46,24 @@ namespace SnakeGame.Services
             
         }
 
-        private bool ExistsNearBy(Room room, PositionModel position,int?delta=null)
+        private List<FoodModel> GetNearBy(RoomModel room, PositionModel position, int delta)
         {
             lock (room)
             {
-                var deltaComparison = delta??_gameData.Configurations.FoodConfiguration.FoodSize;
-                return room.Foods.Any(p =>
+                return  room.Foods.Where(p =>
                 {
                     var xPositionCompare = CalculationsHelper.Distance(p.Position.X.Value, position.X.Value) <=
-                                           deltaComparison;
+                                           delta;
                     var yPositionCompare = CalculationsHelper.Distance(p.Position.Y.Value, position.Y.Value) <=
-                                           deltaComparison;
+                                           delta;
                     return xPositionCompare && yPositionCompare;
-                });
+                }).ToList();
                 ;
             }
         }
 
 
-        private bool CanGenerate(Room room)
+        private bool CanGenerate(RoomModel room)
         {
             lock (room)
             {
@@ -72,23 +72,23 @@ namespace SnakeGame.Services
             
         }
 
-        public FoodModel Get(Room room, SnakeModel snake)
+        public FoodModel Get(RoomModel room, SnakeModel snake)
         {
             lock (room)
             {
-                var foods =  room.Foods.Where(p => ExistsNearBy(room, snake.CurrentlyPosition, snake.HeadSize)).ToList();
+                var foods =  GetNearBy(room, snake.CurrentlyPosition, snake.HeadSize);
                 if (!foods.Any())
                     return null;
 
-                var food = foods.FirstOrDefault(p=> CalculationsHelper.Distance(foods.))
+                //var food = foods.FirstOrDefault(p=> CalculationsHelper.Distance(foods.))
 
 
 
 
-                return null;
+                return foods.FirstOrDefault();
             }
         }
-        public void RemoveFood(Room room, FoodModel food)
+        public void RemoveFood(RoomModel room, FoodModel food)
         {
             lock (room)
             {
