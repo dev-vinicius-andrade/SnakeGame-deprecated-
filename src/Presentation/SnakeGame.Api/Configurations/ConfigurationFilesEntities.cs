@@ -9,7 +9,7 @@ namespace SnakeGame.Api.Configurations
         
         public HubOptions HubOptions { get; set; }
         public  string AllowedHosts { get; set; }
-        public GameConfigurationsModel GameConfigurations { get; set; }
+        public GameConfigurations GameConfigurations { get; set; }
         public AdminModels.AvailableUsers AvailableUsersConfiguration { get; set; }
         public AdminModels.PasswordEncrypt PasswordEncryptConfiguration { get; set; }
 

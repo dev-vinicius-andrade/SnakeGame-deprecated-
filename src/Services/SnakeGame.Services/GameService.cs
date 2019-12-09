@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using SnakeGame.Domain.Snake;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services
@@ -11,7 +12,7 @@ namespace SnakeGame.Services
 
     public class GameService
     {
-        private readonly GameData _gameData;
+        private readonly GameConfigurations _configurations;
         private readonly RoomService _roomService;
         private readonly FoodService _foodService;
         private readonly SnakeService _snakeService;
@@ -23,13 +24,13 @@ namespace SnakeGame.Services
 
 
         public GameService(
-            GameData gameData,
+            GameConfigurations configurations,
             RoomService roomService,
             FoodService foodService,
             SnakeService snakeService,
             PlayerService playerService)
         {
-            _gameData = gameData;
+            _configurations = configurations;
             _roomService = roomService;
             _foodService = foodService;
             _snakeService = snakeService;
@@ -49,17 +50,17 @@ namespace SnakeGame.Services
         }
 
 
-        public ConfigurationsModel GetConfigurations()
+        public GameConfigurationsModel GetConfigurations()
         {
-            return  new ConfigurationsModel
+            return  new GameConfigurationsModel
             {
-                Room = new ConfigurationsModel.RoomConfiguirationModel
+                Room = new GameConfigurationsModel.RoomConfiguirationModel
                 {
-                    Width = _gameData.Configurations.RoomConfiguration.Width,
-                    Height = _gameData.Configurations.RoomConfiguration.Height,
-                    BackgroundColor = _gameData.Configurations.RoomConfiguration.BackgroundColor,
-                    FrameRateInterval =  _gameData.Configurations.GameFrameRateMilliSeconds,
-                    Infos = _gameData.Configurations.RoomConfiguration.Infos
+                    Width = _configurations.RoomConfiguration.Width,
+                    Height = _configurations.RoomConfiguration.Height,
+                    BackgroundColor = _configurations.RoomConfiguration.BackgroundColor,
+                    FrameRateInterval =  _configurations.GameFrameRateMilliSeconds,
+                    Infos = _configurations.RoomConfiguration.Infos
                 }
             };
             
@@ -68,24 +69,7 @@ namespace SnakeGame.Services
         public bool IsPlayerAlive()=> _isConfigured 
             ?_player.Alive
             : throw new Exception("Before anything, you MUST call Configure method");
-        public void  MovePlayer()
-        { 
-            var movementTracker = _snakeService.Move(_player.Snake, _player.Snake.Direction);
-            var foodColision = GetFoodColision(movementTracker.Snake);
-            if (foodColision != null)
-            {
-                _snakeService.Add(movementTracker.Snake); 
-                _foodService.RemoveFood(_room,foodColision);
-                GameStatus();
-            }
-            
-            
-        }
 
-        private FoodModel GetFoodColision(SnakeModel snake)
-        {
-            return  _foodService.Get(_room, snake);
-        }
 
 
         public void GameStatus()
@@ -96,17 +80,32 @@ namespace SnakeGame.Services
                 if (IsPlayerAlive())
                 {
                     _foodService.GenerateFood(_room);
-                    MovePlayer();
+                    var nextPosition = _snakeService.Move(_player.Snake, _player.Snake.Direction);
+                    var foodColision = _foodService.Get(_room, nextPosition,_player.Snake.HeadSize);
+                   
+                    if (foodColision != null)
+                    {
+                        _snakeService.Add(_player.Snake,nextPosition,false); 
+                        _foodService.RemoveFood(_room,foodColision);
+                
+                    }
+                    else
+                    {
+                        _snakeService.Add(_player.Snake,nextPosition);
+                    }
+                    
                     
                 }
 
-                _clients.All.SendCoreAsync("GameChanged", new object[] { new GameModel(_room) });
+                _clients.Clients(_roomService.GetConnectedClientsIds(_room)).SendCoreAsync("GameChanged", new object[] { new GameModel(_room, _roomService.GetScore(_room))});
+                _clients.Caller.SendCoreAsync("PlayerStatus", new object[] {_player});
             }
             catch (Exception ex)
             {
                 _clients.Caller.SendCoreAsync("BackendError", new object[] { ex });
             }
         }
+
 
     }
 }

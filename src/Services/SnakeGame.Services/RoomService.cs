@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services
 {
     public class RoomService
     {
+        private readonly GameConfigurations _configurations;
         private readonly GameData _gameData;
 
-        public  RoomService(GameData gameData)
+        public  RoomService(GameConfigurations configurations,GameData gameData )
         {
+            _configurations = configurations;
             _gameData = gameData;
         }
 
@@ -51,14 +54,13 @@ namespace SnakeGame.Services
         }
 
 
-
         public bool IsRoomAvailable(RoomModel room)
         {
             lock (room)
             {
                 return   room.IsAvailable 
                          &&(room.ConnectOnlyWithGuid ==false)
-                         &&(room.Players.Count < _gameData.Configurations.RoomConfiguration.MaxPlayers);
+                         &&(room.Players.Count < _configurations.RoomConfiguration.MaxPlayers);
             }
         }
 
@@ -82,6 +84,21 @@ namespace SnakeGame.Services
                 return room.Players.Select(p => p.Id).ToList();
             }
     
+        }
+
+        public IReadOnlyList<ScoreModel> GetScore(RoomModel room)
+        {
+            lock (room)
+            {
+                var players = room.Players.Take(_configurations.RoomConfiguration.PlayersInScore)
+                    .OrderByDescending(p => p.Snake.Size).ToList();
+                return  players.Select(player => new ScoreModel
+                {
+                    PlayerName = player.Name, 
+                    SnakeColor = player.Snake.Color,
+                    Points = player.Snake.Path.Count - _configurations.SnakeConfiguration.InitialSnakeSize
+                }).ToList();
+            }
         }
     }
 }

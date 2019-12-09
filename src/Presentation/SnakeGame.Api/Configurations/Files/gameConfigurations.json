@@ -2,14 +2,15 @@
   "GameConfigurations": {
     "GameFrameRateMilliSeconds": 300,
     "RoomConfiguration": {
-      "Width": 1024,
-      "Height": 768,
+      "Width": 800,
+      "Height": 800,
       "MaxFoods": 2,
       "MaxPlayers": 2,
       "BackgroundColor": "#393E46",
+      "PlayersInScore": 5,
       "Infos": {
-        "Width": 500,
-        "Height": 500,
+        "Width": 200,
+        "Height": 200,
         "BackgroundColor": "#393E46",
         "Opacity": 0.1
       }

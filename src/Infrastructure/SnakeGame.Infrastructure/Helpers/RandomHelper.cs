@@ -5,14 +5,15 @@ namespace SnakeGame.Infrastructure.Helpers
 {
     public static class RandomHelper
     {
-        public static PositionModel RandomPosition(int xMinValue, int xMaxValue, int yMinValue, int yMaxValue)
+        public static PositionModel RandomPosition(int xMinValue, int xMaxValue, int yMinValue, int yMaxValue, string color, string borderColor)
         {
             var randomizer = new Random();
             return new PositionModel
             {
-                Angle = 0,
                 X = randomizer.Next(xMinValue, xMaxValue),
-                Y = randomizer.Next(yMinValue, yMaxValue)
+                Y = randomizer.Next(yMinValue, yMaxValue),
+                Color = color,
+                BorderColor = borderColor
             };
         }
         public static int RandomNumber(int minimunValue, int maximunValue)=>

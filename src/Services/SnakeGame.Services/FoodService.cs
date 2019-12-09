@@ -4,18 +4,19 @@ using System.Linq;
 using SnakeGame.Domain.Food;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services
 {
     public class FoodService
     {
-        private readonly GameData _gameData;
+        private readonly GameConfigurations _configurations;
         private readonly RoomService _roomService;
 
-        public FoodService(GameData gameData,RoomService roomService)
+        public FoodService(GameConfigurations configurations,RoomService roomService)
         {
-            _gameData = gameData;
+            _configurations = configurations;
             _roomService = roomService;
         }
 
@@ -27,8 +28,11 @@ namespace SnakeGame.Services
                 if (!CanGenerate(room))
                     return null;
 
-                var food = new FoodGenerator(_gameData.Configurations).Generate(
-                    _roomService.GetRandomAvailableColor(room));
+                var color = _roomService.GetRandomAvailableColor(room);
+                var food = new FoodGenerator(_configurations).Generate(
+                    color:color,
+                    borderColor:color
+                    );
                 if (Exists(room, food))
                     return GenerateFood(room);
 
@@ -46,7 +50,7 @@ namespace SnakeGame.Services
             
         }
 
-        private List<FoodModel> GetNearBy(RoomModel room, PositionModel position, int delta)
+        private List<FoodModel> GetNearBy(RoomModel room, PositionModel position, int delta=0)
         {
             lock (room)
             {
@@ -67,16 +71,16 @@ namespace SnakeGame.Services
         {
             lock (room)
             {
-               return room.Foods.Count < _gameData.Configurations.RoomConfiguration.MaxFoods;
+               return room.Foods.Count < _configurations.RoomConfiguration.MaxFoods;
             }
             
         }
 
-        public FoodModel Get(RoomModel room, SnakeModel snake)
+        public FoodModel Get(RoomModel room, PositionModel position, int delta=0)
         {
             lock (room)
             {
-                var foods =  GetNearBy(room, snake.CurrentlyPosition, snake.HeadSize);
+                var foods =  GetNearBy(room, position, delta);
                 if (!foods.Any())
                     return null;
 

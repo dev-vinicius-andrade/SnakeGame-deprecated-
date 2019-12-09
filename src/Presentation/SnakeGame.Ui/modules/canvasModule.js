@@ -15,10 +15,10 @@ export default class  CanvasModule{
         this.context.fillText(text,position.x, position.y);
         this.context.closePath();
     }
-    drawPath(color,borderColor,path,size)
+    drawPath(path,size)
     {
         for(let position of path)
-            this.drawRectangle(color,borderColor,position,size);
+            this.drawRectangle(position.color,position.borderColor,position,size);
     }
 
     drawRectangle(color,borderColor,position,size)

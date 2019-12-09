@@ -6,11 +6,11 @@ namespace SnakeGame.Services.Entities
 {
     public class GameData
     {
-        public GameConfigurationsModel Configurations { get; }
+        //public GameConfigurationsModel Configurations { get; }
 
-        public GameData(GameConfigurationsModel configurations)
+        public GameData()
         {
-            Configurations = configurations;
+            //Configurations = configurations;
             Rooms = new List<RoomModel>();
         }
         public List<RoomModel> Rooms { get; set; }

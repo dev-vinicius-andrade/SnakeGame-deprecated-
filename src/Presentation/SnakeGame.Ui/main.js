@@ -10,6 +10,7 @@ window.onload = async function() {
     let hubsService = new  HubsService();
     let canvasModule = new CanvasModule(canvas);
     let gameHub = await hubsService.configureGameHub();
+
     let playerModule = new PlayerModule(gameHub,new SnakeModule(gameHub,canvasModule));
     let gameModule = new GameModule(gameHub, canvasModule,playerModule);
 

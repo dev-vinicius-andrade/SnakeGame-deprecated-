@@ -7,13 +7,13 @@ namespace SnakeGame.Domain.Food
 {
     public class FoodGenerator
     {
-        private readonly GameConfigurationsModel _configurations;
-        public FoodGenerator(GameConfigurationsModel configurations)
+        private readonly GameConfigurations _configurations;
+        public FoodGenerator(GameConfigurations configurations)
         {
             _configurations = configurations;
         }
 
-        public FoodModel Generate(string color)
+        public FoodModel Generate(string color,string borderColor)
         {
 
             return new FoodModel
@@ -23,7 +23,10 @@ namespace SnakeGame.Domain.Food
                     xMinValue: 0,
                     xMaxValue: _configurations.RoomConfiguration.Width - _configurations.FoodConfiguration.FoodSize,
                     yMinValue: 0,
-                    yMaxValue: _configurations.RoomConfiguration.Height - _configurations.FoodConfiguration.FoodSize),
+                    yMaxValue: _configurations.RoomConfiguration.Height - _configurations.FoodConfiguration.FoodSize,
+                    color:color,
+                    borderColor:borderColor
+                    ),
                 Color = color,
                 BorderColor = _configurations.RoomConfiguration.BackgroundColor,
                 Size = _configurations.FoodConfiguration.FoodSize

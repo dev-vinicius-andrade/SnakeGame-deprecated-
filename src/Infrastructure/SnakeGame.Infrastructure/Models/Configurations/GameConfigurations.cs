@@ -1,6 +1,6 @@
 ﻿namespace SnakeGame.Infrastructure.Models.Configurations
 {
-    public class GameConfigurationsModel
+    public class GameConfigurations
     {
         public int GameFrameRateMilliSeconds { get; set; }
         public RoomConfigurationModel RoomConfiguration { get; set; }
@@ -14,6 +14,7 @@
             public int Width { get; set; }
             public int Height { get; set; }
             public string BackgroundColor { get; set; }
+            public int PlayersInScore { get; set; }
             public InfosConfigurationModel Infos { get; set; }
 
             public class InfosConfigurationModel

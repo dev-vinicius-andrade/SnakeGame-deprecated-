@@ -96,6 +96,9 @@ body{
     margin: 0;
     font-family: Consolas,monaco,monospace;
 }
+#divScore{
+    color: #000;
+}
 /*#div-infos{*/
 /*    with:250px;*/
 /*    height: 250px;*/

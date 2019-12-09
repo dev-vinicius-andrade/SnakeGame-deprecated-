@@ -4,25 +4,26 @@ using System.Drawing;
 using System.Linq;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services
 {
      public class PlayerService
     {
-        private readonly GameData _gameData;
+        private readonly GameConfigurations _configurations;
         private readonly RoomService _roomService;
         private readonly SnakeService _snakeService;
 
-        public PlayerService(GameData gameData,RoomService roomService,SnakeService snakeService)
+        public PlayerService(GameConfigurations configurations,RoomService roomService,SnakeService snakeService)
         {
-            _gameData = gameData;
+            _configurations = configurations;
             _roomService = roomService;
             _snakeService = snakeService;
         }
         public PlayerModel New(string connectionId, string name, string roomId)
         {
-            lock (_gameData)
+            lock (_configurations)
             {
 
                 var availableRoom = roomId.IsNullOrEmpty()
@@ -42,40 +43,26 @@ namespace SnakeGame.Services
                     Score = new ScoreModel(),
                     Snake = _snakeService.Create(
                         color:_roomService.GetRandomAvailableColor(availableRoom),
-                        borderColor:LighterColor(_gameData.Configurations.RoomConfiguration.BackgroundColor,0.5))
+                        borderColor: ColorHelper.ChangeColorLevel(_configurations.RoomConfiguration.BackgroundColor,0.5))
                 };
                 availableRoom.Players.Add(playerModel);
                 return playerModel;
             }
         }
 
-        private string LighterColor(string hexadecimalColor,double level)
-        {
-            var colorConverted = new ColorConverter().ConvertFrom(hexadecimalColor);
-            if (colorConverted != null)
-            {
-                var color = (Color) colorConverted;
-                var lightedColor = Color.FromArgb(color.A, (int) (color.R * level), (int) (color.G * level),
-                    (int) (color.B * level));
-
-                return (lightedColor.ToArgb() & 0x00FFFFFF).ToString("X6");
-            }
-
-            return hexadecimalColor;
-        }
 
         public void Disconnect(Guid roomId,string playerId)
         {
-            lock (_gameData)
-            {
                 var room = _roomService.Get(roomId);
-                var player = room.Players.FirstOrDefault(p => p.Id == playerId);
+                lock (room)
+                {
+                    var player = room.Players.FirstOrDefault(p => p.Id == playerId);
 
-                if (!player.IsNull())
-                    room.Players.Remove(player);
-                if (!room.Players.Any())
-                    _roomService.RemoveRoom(room);
-            }
+                    if (!player.IsNull())
+                        room.Players.Remove(player);
+                    if (!room.Players.Any())
+                        _roomService.RemoveRoom(room);
+                }
         }
 
         public PlayerModel Get(RoomModel room, string playerId)

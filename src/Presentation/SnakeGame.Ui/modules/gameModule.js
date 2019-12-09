@@ -48,6 +48,8 @@ export default class GameModule {
             .then(r => {
 
                 this.renderCanvasObjects(this);
+                this.renderRoomGuid(this);
+                this.renderScore(this);
 
             })
             .catch((error)=>{console.log("Error on game start: "+error)});
@@ -61,21 +63,37 @@ export default class GameModule {
         });
     }
     renderCanvasObjects(scope){
-        scope.renderCanvas(scope);
+        scope.canvasModule.initialize(scope.configurations.room.width,scope.configurations.room.height,scope.configurations.room.backgroundColor);
         scope.playerModule.renderSnakes(scope.gameObjects.players);
         scope.foodsModule.generateFoods(scope.gameObjects.foods);
 
         //requestAnimationFrame(scope.renderCanvasObjects(scope));
     }
-    renderCanvas(scope){
-        this.canvasModule.initialize(this.configurations.room.width,this.configurations.room.height,this.configurations.room.backgroundColor);
+    renderRoomGuid(scope)
+    {
+        let labelRoomId = document.getElementById("label-roomId");
+        labelRoomId.innerText = scope.gameObjects.roomGuid;
     }
-
-     renderFoods(scope){
-
-    }
-    functionRenderScore(){
-
+    renderScore(scope){
+        let divScore = document.getElementById("divScore");
+        while (divScore.firstChild) {
+            divScore.removeChild(divScore.firstChild);
+        }
+        for (let scoreObject of scope.gameObjects.score)
+        {
+            console.log(scoreObject);
+            let divScoreRow = document.createElement("div");
+            let divColor = document.createElement("div");
+            let labelName = document.createElement("label");
+            let labelPoints = document.createElement("label");
+            labelName.innerText = scoreObject.playerName;
+            labelPoints.innerText = scoreObject.points;
+            divColor.style.backgroundColor = scoreObject.snakeColor;
+            divScoreRow.appendChild(divColor);
+            divScoreRow.appendChild(labelName);
+            divScoreRow.appendChild(labelPoints);
+            divScore.appendChild(divScoreRow);
+        }
     }
     registerOnGameChangedEventHandler(scope)
     {

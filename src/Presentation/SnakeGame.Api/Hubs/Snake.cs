@@ -7,13 +7,21 @@ namespace SnakeGame.Api.Hubs
     {
         public void DirectionChanged(Guid roomGuid, string playerId, PositionModel newDirection)
         {
-            var room = _roomService.Get(roomGuid);
-            var player = _playerService.Get(room, playerId);
-            
-            if (!_snakeService.DirectionChanged(player.Snake, newDirection)) return;
+            try
+            {
+                var room = _roomService.Get(roomGuid);
+                var player = _playerService.Get(room, playerId);
 
-            _gameService.Configure(Clients,roomGuid,playerId);
-            _gameService.GameStatus();
+                if (!_snakeService.ChangeDirection(player.Snake, newDirection)) return;
+            }
+            catch (Exception)
+            {
+
+                
+            }
+
+            //_gameService.Configure(Clients,roomGuid,playerId);
+            //_gameService.GameStatus();
         }
     }
 }

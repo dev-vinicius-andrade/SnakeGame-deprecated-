@@ -18,7 +18,7 @@ export default class SnakeModule{
 
     renderSnake(snake){
         if(snake!=null && snake!=undefined)
-            this.canvasModule.drawPath(snake.color, snake.borderColor, snake.path, snake.headSize);
+            this.canvasModule.drawPath(snake.path, snake.headSize);
 
     }
 }

@@ -1,107 +1,116 @@
-﻿using SnakeGame.Domain.Snake;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SnakeGame.Domain.Snake;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Models;
-using SnakeGame.Services.Entities;
+using SnakeGame.Infrastructure.Models.Configurations;
 
 namespace SnakeGame.Services
 {
     public class SnakeService
     {
-        private readonly GameData _gameData;
-        private readonly FoodService _foodService;
+        private readonly GameConfigurations _configurations;
 
-        public SnakeService(GameData gameData, FoodService foodService)
+        public SnakeService(GameConfigurations configurations)
         {
-            _gameData = gameData;
-            _foodService = foodService;
+            _configurations = configurations;
         }
         public SnakeModel Create(string color, string borderColor)
         {
-            return new SnakeGenerator(_gameData.Configurations)
-                .Generate(color, borderColor);
+            lock (_configurations)
+            {
+                return new SnakeGenerator(_configurations)
+                    .Generate(color, borderColor);
+            }
         }
 
 
-        public SnakeMovementTracker Move(SnakeModel snake, PositionModel direction)
+        public PositionModel Move(SnakeModel snake, PositionModel direction)
         {
             lock (snake)
             {
-                var currentlyPosition = snake.CurrentlyPosition;
-                return new SnakeMovementTracker(snake)
-                    .TrackMovement(BoundaryReachPositionRecalculator(
-                         position: new PositionModel
-                         {
-                             X = currentlyPosition.X + GetDirectionAxisMovement(direction.X.Value),
-                             Y = currentlyPosition.Y + GetDirectionAxisMovement(direction.Y.Value),
-                             Angle = direction.Angle
-                         },
-                          direction: snake.Direction));
+                return BoundaryReachPositionRecalculator(
+                    position: new PositionModel
+                    {
+                        X = snake.CurrentlyPosition.X + GetDirectionAxisMovement(direction.X.Value),
+                        Y = snake.CurrentlyPosition.Y + GetDirectionAxisMovement(direction.Y.Value)
+                    },
+                    direction: snake.Direction);
             }
 
         }
 
         private PositionModel BoundaryReachPositionRecalculator(PositionModel position, PositionModel direction)
         {
-
-            //y = 1 baixo
-            //y = -1 cima
-
             var recalculatedPosition = position.Clone();
-            if (position.X >= _gameData.Configurations.RoomConfiguration.Width&&direction.X==1)
+            if (position.X >= _configurations.RoomConfiguration.Width && direction.X == 1)
                 recalculatedPosition.X = 0;
             if (position.X <= 0 && direction.X == -1)
-                recalculatedPosition.X = _gameData.Configurations.RoomConfiguration.Width;
-            if (position.Y <= 0 && direction.Y ==-1)
-                recalculatedPosition.Y = _gameData.Configurations.RoomConfiguration.Height;
-            if (position.Y >= _gameData.Configurations.RoomConfiguration.Height && direction.Y == 1)
+                recalculatedPosition.X = _configurations.RoomConfiguration.Width;
+            if (position.Y <= 0 && direction.Y == -1)
+                recalculatedPosition.Y = _configurations.RoomConfiguration.Height;
+            if (position.Y >= _configurations.RoomConfiguration.Height && direction.Y == 1)
                 recalculatedPosition.Y = 0;
             return recalculatedPosition;
         }
 
-        private int GetDirectionAxisMovement(int axisValue) => axisValue *  _gameData.Configurations.SnakeConfiguration.HeadSize;
+        private int GetDirectionAxisMovement(int axisValue) => axisValue * _configurations.SnakeConfiguration.HeadSize;
 
         public ResponseModel ChangeSpeed(int value)
         {
-            lock (_gameData.Configurations)
+            lock (_configurations)
             {
-                if (value == _gameData.Configurations.SnakeConfiguration.Speed)
+                if (value == _configurations.SnakeConfiguration.Speed)
                     return ResponseHelper.CreateBadRequest("Speed is already at this value");
-                _gameData.Configurations.SnakeConfiguration.Speed = value;
+                _configurations.SnakeConfiguration.Speed = value;
                 return ResponseHelper.CreateOk("Speed Changed");
             }
         }
 
         public ResponseModel ChangeInitialSize(int value)
         {
-            lock (_gameData.Configurations)
+            lock (_configurations)
             {
-                if (value == _gameData.Configurations.SnakeConfiguration.InitialSnakeSize)
+                if (value == _configurations.SnakeConfiguration.InitialSnakeSize)
                     return ResponseHelper.CreateBadRequest("Initial Size is already at this value");
-                _gameData.Configurations.SnakeConfiguration.InitialSnakeSize = value;
+                _configurations.SnakeConfiguration.InitialSnakeSize = value;
                 return ResponseHelper.CreateOk("Initial Size Changed");
             }
         }
 
-        public void Add(SnakeModel snake)
+        public void Add(SnakeModel snake,PositionModel position, bool removeLast=true)
         {
-            var currentlyPosition = snake.CurrentlyPosition;
-            snake.Path =
-                new SnakeGenerator(_gameData.Configurations).GeneratePath(currentlyPosition, snake.Direction,
-                    snake.Path.Count);
+            lock (_configurations)
+            {
+                snake.CurrentlyPosition.ChangeColor(SnakeGenerator.GetBodyColor(snake.Color));
+                snake.Path.Add(new PositionModel
+                {
+                    X = position.X,
+                    Y = position.Y,
+                    Color = snake.Color,
+                    BorderColor = snake.BorderColor
+                });
+                if (removeLast)
+                    snake.Path.RemoveAt(0);
+
+
+
+            }
         }
 
-        public bool DirectionChanged(SnakeModel snake, PositionModel newDirection)
+        public bool ChangeDirection(SnakeModel snake, PositionModel newDirection)
         {
-            var directionChanged = DirectionChanged(snake.Direction, newDirection);
-            if (directionChanged)
-                snake.Direction = new PositionModel
-                {
-                    X = newDirection.X,
-                    Y = newDirection.Y,
-                    Angle = newDirection.Angle
-                };
+            if (!DirectionChanged(snake.Direction, newDirection))
+                return false;
 
-            return directionChanged;
+
+            snake.Direction = new PositionModel
+            {
+                X = newDirection.X,
+                Y = newDirection.Y
+            };
+
+            return true;
         }
 
         public bool DirectionChanged(PositionModel currentlyDirection, PositionModel newDirection)
