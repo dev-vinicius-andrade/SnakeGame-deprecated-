@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SnakeGame.Domain.Snake;
+using SnakeGame.Infrastructure.Configurations;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services
@@ -43,9 +43,12 @@ namespace SnakeGame.Services
         public void Configure(IHubCallerClients clients,Guid roomGuid, string playerId)
         {
             _room = _roomService.Get(roomGuid);
+            if(_room.IsNullOrEmpty()) throw new Exception("invalid_room");
             _player = _playerService.Get(_room,playerId);
+            if(_player.IsNullOrEmpty()) throw new Exception("invalid_player");
+            
             _clients = clients;
-            if (!_room.IsNull() && !_player.IsNull() && !_clients.IsNull())
+            if (!_clients.IsNullOrEmpty())
                 _isConfigured = true;
         }
 
@@ -96,7 +99,6 @@ namespace SnakeGame.Services
                     
                     
                 }
-
                 _clients.Clients(_roomService.GetConnectedClientsIds(_room)).SendCoreAsync("GameChanged", new object[] { new GameModel(_room, _roomService.GetScore(_room))});
                 _clients.Caller.SendCoreAsync("PlayerStatus", new object[] {_player});
             }

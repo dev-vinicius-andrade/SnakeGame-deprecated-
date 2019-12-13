@@ -3,6 +3,7 @@ import DocumentEventHandler from "../handlers/documentEventHandler.js";
 import FoodsModule from "./foodsModule.js";
 export default class GameModule {
     hub;
+    gameIntervalId;
     gameObjects;
     canvasModule;
     playerModule;
@@ -13,6 +14,7 @@ export default class GameModule {
     configurations;
     constructor(hub,canvasModule, playerModule) {
         this.hub=hub;
+        this.gameIntervalId=null;
         this.gameObjects=new GameObjects();
         this.canvasModule=canvasModule;
         this.playerModule = playerModule;
@@ -38,12 +40,14 @@ export default class GameModule {
     }
 
     registerEvents(player){
+        this.player=player;
         this.registerKeyDownEventHandler(DocumentEventHandler.keyDownEventHandler,this.playerModule.getKeyDownEventHandler(),player);
         this.registerOnGameChangedEventHandler(this);
+        this.registerOnSpeedChanged(player,this);
     }
 
-    start(player){
-        window.setInterval(()=>{
+    gameStatus(player){
+        this.gameIntervalId=  window.setInterval(()=>{
         this.hub.invoke('GameStatus', player.roomId, player.id)
             .then(r => {
 
@@ -53,7 +57,16 @@ export default class GameModule {
 
             })
             .catch((error)=>{console.log("Error on game start: "+error)});
-        },this.configurations.room.frameRateInterval)
+        },this.configurations.room.frameRateInterval);
+    }
+    registerOnSpeedChanged(player,scope)
+    {
+        this.hub.on("SpeedChanged",function (newSpeed) {
+            clearInterval(scope.gameIntervalId);
+            scope.configurations.room.frameRateInterval = newSpeed;
+            scope.gameStatus(player);
+
+        });
     }
 
     registerBackEndError()

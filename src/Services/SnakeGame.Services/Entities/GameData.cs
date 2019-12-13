@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
+﻿using System;
+using System.Collections.Generic;
+using SnakeGame.Infrastructure.Data.Models;
 
 namespace SnakeGame.Services.Entities
 {
     public class GameData
     {
-        //public GameConfigurationsModel Configurations { get; }
+        ////public GameConfigurationsModel Configurations { get; }
 
-        public GameData()
-        {
-            //Configurations = configurations;
-            Rooms = new List<RoomModel>();
-        }
-        public List<RoomModel> Rooms { get; set; }
+        //public GameData()
+        //{
+        //    //Configurations = configurations;
+        //    Rooms = new Dictionary<Guid, RoomModel>();
+        //}
+        //public Dictionary<Guid, RoomModel> Rooms { get; set; }
     }
 }

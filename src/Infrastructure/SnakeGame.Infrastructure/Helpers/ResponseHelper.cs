@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Data.Models;
 
 namespace SnakeGame.Infrastructure.Helpers
 {

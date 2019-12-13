@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using SnakeGame.Infrastructure.Configurations;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services
@@ -29,8 +29,9 @@ namespace SnakeGame.Services
                 var availableRoom = roomId.IsNullOrEmpty()
                                     ?_roomService.AvailableRooms().OrderBy(p => p.DateCreated).FirstOrDefault()
                                     :_roomService.Get(roomId.ToGuid());
-                if (availableRoom.IsNull())
+                if (availableRoom.IsNullOrEmpty())
                     availableRoom = _roomService.New();
+
 
                 if (!availableRoom.IsAvailable)
                     return null;
@@ -58,10 +59,10 @@ namespace SnakeGame.Services
                 {
                     var player = room.Players.FirstOrDefault(p => p.Id == playerId);
 
-                    if (!player.IsNull())
+                    if (!player.IsNullOrEmpty())
                         room.Players.Remove(player);
                     if (!room.Players.Any())
-                        _roomService.RemoveRoom(room);
+                        _roomService.RemoveRoom(roomId);
                 }
         }
 

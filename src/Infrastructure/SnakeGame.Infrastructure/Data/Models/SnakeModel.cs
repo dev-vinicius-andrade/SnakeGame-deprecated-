@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SnakeGame.Infrastructure.Helpers;
 
-namespace SnakeGame.Infrastructure.Models
+namespace SnakeGame.Infrastructure.Data.Models
 {
     public class SnakeModel
     {
@@ -19,13 +18,5 @@ namespace SnakeGame.Infrastructure.Models
         public string Color { get; set; }
         public int Speed { get; set; }
         public  string BorderColor { get; set; }
-        
-
-        public SnakeModel ChangeColor(string color)
-        {
-            if(!color.IsNullOrEmpty())
-                Color = color;
-            return this;
-        }
     }
 }

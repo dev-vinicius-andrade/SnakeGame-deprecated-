@@ -1,5 +1,5 @@
 ﻿using SnakeGame.Domain.Admin;
-using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Data.Models;
 
 namespace SnakeGame.Services
 {

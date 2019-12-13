@@ -1,4 +1,4 @@
-﻿namespace SnakeGame.Infrastructure.Models.Configurations
+﻿namespace SnakeGame.Infrastructure.Configurations
 {
     public class GameConfigurations
     {

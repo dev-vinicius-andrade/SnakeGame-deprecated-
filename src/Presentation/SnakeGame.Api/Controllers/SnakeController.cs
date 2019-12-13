@@ -31,7 +31,8 @@ namespace SnakeGame.Api.Controllers
             if(!_userManagement.IsUserConnected())
                 return new JsonResult(ResponseHelper.DefaultUnauthorized);
 
-            var result = _snakeService.ChangeSpeed(value);
+            var result = _snakeService.ChangeSpeedConfiguration(value);
+
             return new JsonResult(result){StatusCode = result.Code};
         }
         [HttpPost("changeInitialSize")]

@@ -1,4 +1,4 @@
-﻿using SnakeGame.Infrastructure.Models.Configurations;
+﻿using SnakeGame.Infrastructure.Configurations;
 
 namespace SnakeGame.Services.Entities
 {

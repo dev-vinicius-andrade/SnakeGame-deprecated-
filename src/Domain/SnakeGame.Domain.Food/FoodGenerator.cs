@@ -1,7 +1,7 @@
 ﻿using System;
+using SnakeGame.Infrastructure.Configurations;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
 
 namespace SnakeGame.Domain.Food
 {

@@ -1,4 +1,4 @@
-﻿namespace SnakeGame.Infrastructure.Models
+﻿namespace SnakeGame.Infrastructure.Data.Models
 {
     public class UserModel
     {

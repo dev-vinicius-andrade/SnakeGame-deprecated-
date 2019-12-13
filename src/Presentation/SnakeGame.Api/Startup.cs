@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -8,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using SnakeGame.Api.Configurations;
 using SnakeGame.Api.Helpers;
 using SnakeGame.Api.Hubs;
+using SnakeGame.Infrastructure.Data;
 
 namespace SnakeGame.Api
 {
@@ -46,6 +48,7 @@ namespace SnakeGame.Api
                 p.ClientTimeoutInterval=_appSettings.HubOptions.ClientTimeoutInterval;
             });
             services.AddSwagger(_configuration, _apiName, _apiInfo);
+            services.AddDbContext<GameDbContext>(options => options.UseInMemoryDatabase(databaseName: "GameDb"));
             services.AddDependencies(_configuration);
             services.ConfigureCors(CorsPolicyName);
         }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
 using SnakeGame.Services;
 
 namespace SnakeGame.Api.Hubs
@@ -34,8 +33,16 @@ namespace SnakeGame.Api.Hubs
 
         public  void GameStatus(Guid roomId, string playerId)
         {
-            _gameService.Configure(Clients, roomId, playerId);
-            _gameService.GameStatus();
+            try
+            {
+                _gameService.Configure(Clients, roomId, playerId);
+                _gameService.GameStatus();
+            }
+            catch (Exception)
+            {
+
+                
+            }
         }
        
     }

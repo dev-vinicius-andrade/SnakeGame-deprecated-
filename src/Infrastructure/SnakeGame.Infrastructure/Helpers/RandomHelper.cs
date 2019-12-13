@@ -1,5 +1,5 @@
 ﻿using System;
-using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Data.Models;
 
 namespace SnakeGame.Infrastructure.Helpers
 {
@@ -21,7 +21,7 @@ namespace SnakeGame.Infrastructure.Helpers
         public static string RandomColor()=>
              $"#{RandomNumber(0x1000000):X6}";
 
-        public static int RandomNumber(int? maxValue=null)=>maxValue.IsNull()
+        public static int RandomNumber(int? maxValue=null)=>maxValue.IsNullOrEmpty()
                 ?new Random().Next()
                 :new Random().Next(maxValue.Value);
     }

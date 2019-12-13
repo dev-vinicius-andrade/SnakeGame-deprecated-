@@ -1,5 +1,5 @@
 ﻿using System;
-using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Data.Models;
 
 namespace SnakeGame.Api.Hubs
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SnakeGame.Infrastructure.Models
+namespace SnakeGame.Infrastructure.Data.Models
 {
     public class RoomModel
     {

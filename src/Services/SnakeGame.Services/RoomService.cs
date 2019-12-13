@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SnakeGame.Infrastructure.Configurations;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services
@@ -23,8 +23,9 @@ namespace SnakeGame.Services
         {
             lock (_gameData)
             {
-                var room = _gameData.Rooms.FirstOrDefault(p => p.RoomGuid == roomGuid);
-                return room;
+                return _gameData.Rooms.ContainsKey(roomGuid) 
+                    ? _gameData.Rooms[roomGuid] 
+                    : null;
             }
         }
         public RoomModel New()
@@ -32,16 +33,16 @@ namespace SnakeGame.Services
             lock (_gameData)
             {
                 var room = new RoomModel { RoomGuid = Guid.NewGuid(), DateCreated = DateTime.UtcNow };
-                _gameData.Rooms.Add(room);
+                _gameData.Rooms.Add(room.RoomGuid, room);
                 return room;
             }
         }
 
-        public void RemoveRoom(RoomModel room)
+        public void RemoveRoom(Guid roomGuid)
         {
             lock (_gameData)
             {
-                _gameData.Rooms.Remove(room);
+                _gameData.Rooms.Remove(roomGuid);
             }
         }
 

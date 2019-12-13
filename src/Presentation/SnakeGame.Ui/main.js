@@ -19,7 +19,7 @@ window.onload = async function() {
             if(player!==null || player !==undefined) {
                 await gameModule.showGame();
                 await gameModule.registerEvents(player);
-                await gameModule.start(player);
+                await gameModule.gameStatus(player);
             }else{
                 await gameModule.hideGame();
                 await RoomIsNotAvailable();

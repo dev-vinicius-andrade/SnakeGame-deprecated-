@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using SnakeGame.Domain.Snake.Enums;
 using SnakeGame.Domain.Snake.Helpers;
+using SnakeGame.Infrastructure.Configurations;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
 
 namespace SnakeGame.Domain.Snake
 {
@@ -87,7 +87,6 @@ namespace SnakeGame.Domain.Snake
             yMaxValue: _configurations.RoomConfiguration.Height - _configurations.SnakeConfiguration.HeadSize,
             color: color,
             borderColor:borderColor
-
-            );
+        );
     }
 }

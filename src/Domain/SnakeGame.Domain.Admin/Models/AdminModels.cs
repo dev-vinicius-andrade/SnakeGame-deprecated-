@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Data.Models;
 
 namespace SnakeGame.Domain.Admin.Models
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.SignalR;
-using SnakeGame.Infrastructure.Models;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Services;
 
 namespace SnakeGame.Api.Hubs

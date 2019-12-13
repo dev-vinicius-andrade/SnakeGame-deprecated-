@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnakeGame.Infrastructure.Models
+﻿namespace SnakeGame.Infrastructure.Data.Models
 {
     public class ScoreModel
     {

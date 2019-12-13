@@ -1,8 +1,7 @@
-﻿
-using System;
+﻿using System;
 using SnakeGame.Infrastructure.Helpers;
 
-namespace SnakeGame.Infrastructure.Models
+namespace SnakeGame.Infrastructure.Data.Models
 {
     public class FoodModel
     {
@@ -11,11 +10,5 @@ namespace SnakeGame.Infrastructure.Models
         public Guid Guid { get; set; }
         public string Color { get; set; }
         public string BorderColor { get; set; }
-        public FoodModel ChangeColor(string color)
-        {
-            if (!color.IsNullOrEmpty())
-                Color = color;
-            return this;
-        }
     }
 }

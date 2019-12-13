@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using SnakeGame.Domain.Food;
+using SnakeGame.Infrastructure.Configurations;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
 using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Services

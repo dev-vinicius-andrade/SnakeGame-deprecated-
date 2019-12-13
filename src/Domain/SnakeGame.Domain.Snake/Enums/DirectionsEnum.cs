@@ -1,11 +1,13 @@
-﻿namespace SnakeGame.Domain.Snake.Enums
+﻿using System.ComponentModel;
+
+namespace SnakeGame.Domain.Snake.Enums
 {
     public enum DirectionsEnum
     {
-        Left=0,
-        Up=1,
-        Right=2,
-        Down=3,
-        Angular=4
+        [Description("Left")] Left=0,
+        [Description("Up")]Up=1,
+        [Description("Right")]Right=2,
+        [Description("Down")]Down=3,
+        [Description("Angular")]Angular=4
     }
 }

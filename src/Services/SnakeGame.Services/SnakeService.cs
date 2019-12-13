@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SnakeGame.Domain.Snake;
+using SnakeGame.Infrastructure.Configurations;
+using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-using SnakeGame.Infrastructure.Models.Configurations;
 
 namespace SnakeGame.Services
 {
@@ -34,6 +34,7 @@ namespace SnakeGame.Services
                     {
                         X = snake.CurrentlyPosition.X + GetDirectionAxisMovement(direction.X.Value),
                         Y = snake.CurrentlyPosition.Y + GetDirectionAxisMovement(direction.Y.Value)
+
                     },
                     direction: snake.Direction);
             }
@@ -56,7 +57,7 @@ namespace SnakeGame.Services
 
         private int GetDirectionAxisMovement(int axisValue) => axisValue * _configurations.SnakeConfiguration.HeadSize;
 
-        public ResponseModel ChangeSpeed(int value)
+        public ResponseModel ChangeSpeedConfiguration(int value)
         {
             lock (_configurations)
             {
@@ -78,11 +79,11 @@ namespace SnakeGame.Services
             }
         }
 
-        public void Add(SnakeModel snake,PositionModel position, bool removeLast=true)
+        public void Add(SnakeModel snake, PositionModel position, bool removeLast = true)
         {
             lock (_configurations)
             {
-                snake.CurrentlyPosition.ChangeColor(SnakeGenerator.GetBodyColor(snake.Color));
+                snake.CurrentlyPosition.Color = SnakeGenerator.GetBodyColor(snake.Color);
                 snake.Path.Add(new PositionModel
                 {
                     X = position.X,
