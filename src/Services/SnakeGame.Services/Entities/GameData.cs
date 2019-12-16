@@ -13,6 +13,6 @@ namespace SnakeGame.Services.Entities
         //    //Configurations = configurations;
         //    Rooms = new Dictionary<Guid, RoomModel>();
         //}
-        //public Dictionary<Guid, RoomModel> Rooms { get; set; }
+        public Dictionary<Guid, RoomModel> Rooms { get; set; }
     }
 }

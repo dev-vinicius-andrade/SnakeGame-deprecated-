@@ -39,7 +39,7 @@ namespace SnakeGame.Services
                 var playerModel = new PlayerModel
                 {
                     RoomId = availableRoom.RoomGuid,
-                    Id = connectionId,
+                    ConnectionId = connectionId,
                     Name = name,
                     Score = new ScoreModel(),
                     Snake = _snakeService.Create(
@@ -57,7 +57,7 @@ namespace SnakeGame.Services
                 var room = _roomService.Get(roomId);
                 lock (room)
                 {
-                    var player = room.Players.FirstOrDefault(p => p.Id == playerId);
+                    var player = room.Players.FirstOrDefault(p => p.ConnectionId == playerId);
 
                     if (!player.IsNullOrEmpty())
                         room.Players.Remove(player);
@@ -70,7 +70,7 @@ namespace SnakeGame.Services
         {
             lock (room)
             {
-                return room.Players.FirstOrDefault(p => p.Id == playerId);
+                return room.Players.FirstOrDefault(p => p.ConnectionId == playerId);
             }
             
         }

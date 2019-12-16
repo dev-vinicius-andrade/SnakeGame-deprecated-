@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using SnakeGame.Api.Configurations;
 using SnakeGame.Domain.Admin;
 using SnakeGame.Domain.Admin.Models;
+using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Services;
 using SnakeGame.Services.Entities;
 
@@ -13,9 +14,10 @@ namespace SnakeGame.Api.Helpers
     {
         public static void AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddGameContext();
             services.AddScoped<FoodService>();
             services.AddScoped<GameService>();
-            services.AddSingleton<GameData>();
+            //services.AddSingleton<GameData>();
             services.AddScoped<RoomService>();
             services.AddScoped<SnakeService>();
             services.AddScoped<PlayerService>();

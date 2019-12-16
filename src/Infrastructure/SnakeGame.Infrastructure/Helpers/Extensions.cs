@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using SnakeGame.Infrastructure.Data;
 
 namespace SnakeGame.Infrastructure.Helpers
 {
@@ -38,7 +40,13 @@ namespace SnakeGame.Infrastructure.Helpers
             var list = enumerable.ToList();
             list.Add(entity);
             return list;
-        } 
+        }
+
+        public static IServiceCollection AddGameContext(this IServiceCollection services)
+        {
+            services.AddSingleton<GameContext>();
+            return services;
+        }
 
 
     }

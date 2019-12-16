@@ -4,6 +4,7 @@
     "RoomConfiguration": {
       "Width": 800,
       "Height": 800,
+      "MaxRooms": 2, 
       "MaxFoods": 2,
       "MaxPlayers": 2,
       "BackgroundColor": "#393E46",

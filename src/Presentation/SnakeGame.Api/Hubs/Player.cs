@@ -16,7 +16,7 @@ namespace SnakeGame.Api.Hubs
                 return player;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
 
@@ -30,7 +30,7 @@ namespace SnakeGame.Api.Hubs
             {
                 _playerService.Disconnect(roomId, Context.ConnectionId);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
         } 

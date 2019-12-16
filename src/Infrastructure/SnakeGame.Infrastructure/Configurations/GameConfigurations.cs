@@ -9,6 +9,7 @@
         
         public class RoomConfigurationModel
         {
+            public int MaxRooms { get; set; }
             public int MaxFoods { get; set; }
             public int MaxPlayers { get; set; }
             public int Width { get; set; }

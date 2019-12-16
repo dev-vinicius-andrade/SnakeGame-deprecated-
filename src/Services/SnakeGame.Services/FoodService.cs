@@ -100,7 +100,7 @@ namespace SnakeGame.Services
                 {
                     room.Foods.Remove(food);
                 }
-                catch (Exception e)
+                catch (Exception )
                 {
                 }
 
