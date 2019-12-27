@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SnakeGame.Application.Configurations;
 using SnakeGame.Domain.Player;
-using SnakeGame.Domain.Player.Interfaces;
 using SnakeGame.Domain.Room.Interfaces;
-using SnakeGame.Infrastructure.Abstractions;
-using SnakeGame.Infrastructure.Data;
+using SnakeGame.Domain.Room.Models;
+using SnakeGame.Infrastructure.Data.Extensions;
+using SnakeGame.Infrastructure.Data.Interfaces;
 using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Interfaces;
 using SnakeGame.Infrastructure.Models;
 using SnakeGame.Services.Room;
-using SnakeGame.Services.Room.Abstractions;
 using SnakeGame.Services.Room.Configurations;
 
 namespace SnakeGame.Application.Handlers
@@ -20,67 +18,61 @@ namespace SnakeGame.Application.Handlers
     {
 
         private readonly GameConfigurations _configurations;
-        private readonly GameContext<IRoomHandler<IChar,BaseFood>> _gameContext;
+        private readonly SnakeGenerator _charGenerator;
+        private readonly IGameContext _gameContext;
 
-        public GameHandler(GameConfigurations configurations, GameContext<IRoom<IChar,BaseFood>> gameContext)
+        public GameHandler(IGameContext gameContext, GameConfigurations configurations, SnakeGenerator charGenerator)
         {
             _configurations = configurations;
+            _charGenerator = charGenerator;
             _gameContext = gameContext;
         }
-        public bool MaxRoomsReached() => _gameContext.GameData.Count >= _configurations.RoomConfiguration.MaxRooms;
-        public IRoomHandler<IChar,BaseFood> NewRoomHandler()
+        public bool MaxRoomsReached() => _gameContext.Count >= _configurations.RoomConfiguration.MaxRooms;
+        public IReadOnlyList<IRoomHandler> AvailableRooms()
+            => _gameContext.Where(gamedata => gamedata.Room.IsAvailable)
+                .Select(gameData => GetRoomHandler(gameData.Room.Id))
+                .ToList();
+        public IRoomHandler NewRoomHandler()
         {
             if (MaxRoomsReached())
                 return null;
+            var configuration = _configurations.RoomConfiguration;
+            var roomColor = new ColorModel(configuration.BackgroundColor, configuration.BackgroundColor);
+            var room = new RoomModel(roomColor) { Id = Guid.NewGuid(), DateCreated = DateTime.UtcNow };
 
-
-            var roomHandler = new RoomHandler<ICharHandler,BaseFood>(new RoomModel<ICharHandler,BaseFood>(_configurations.RoomConfiguration.BackgroundColor)
-                { Id = Guid.NewGuid(), DateCreated = DateTime.UtcNow }, _configurations);
-            return _gameContext.GameData.TryAdd(roomHandler.Get().Model.Id,roomHandler)
-                ? roomHandler
+            return _gameContext.Add(new GameDataModel(room)) 
+                ? GetRoomHandler(room.Id) 
                 : null;
         }
-        public IReadOnlyList<IRoomHandler<IChar,BaseFood>> AvailableRooms()
-            => _gameContext.GameData.Values.Where(roomHandler => roomHandler.IsRoomAvailable())
-            //.Select(roomHandler => roomHandler.Model())
-            .ToList();
+        
 
 
-        public void RemoveRoom(Guid roomGuid)
+        public void RemoveRoom(Guid roomGuid) => _gameContext.Remove(roomGuid);
+
+        public IRoomHandler GetRoomHandler(Guid roomGuid)
         {
-            if (_gameContext.GameData.ContainsKey(roomGuid))
-                _gameContext.GameData.TryRemove(roomGuid, out _);
-        }
-        public IRoomHandler<IChar,BaseFood> GetRoomHandler(Guid roomGuid)
-        {
-            if (!_gameContext.GameData.ContainsKey(roomGuid))
-                return null;
-
-            if (_gameContext.GameData.TryGetValue(roomGuid, out var room))
-                return room;
-
-            return null;
+            var gameData = _gameContext.Get(roomGuid);
+            if (gameData.IsNullOrEmpty())
+               return null;
+            return new RoomHandler(gameData, _charGenerator, _configurations);
         }
         public void RemovePlayer(Guid roomId, Guid playerGuid)
         {
-            var room = GetRoomHandler(roomId).Model;
-            lock (room)
-            {
-                var player = room.Players.FirstOrDefault(p => p.PlayerGuid == playerGuid);
+            var room = GetRoomHandler(roomId).Room;
+
+                var player = room.Players.FirstOrDefault(p => p.Id == playerGuid);
 
                 if (!player.IsNullOrEmpty())
                     room.Players.Remove(player);
                 if (!room.Players.Any())
                     RemoveRoom(roomId);
-            }
+            
         }
-        public PlayerModel NewPlayer(string connectionId, string name, string roomId)
+        public IPlayer NewPlayer(string connectionId, string name, string roomId)
         {
-            lock (_configurations)
-            {
 
                 var roomHandler = roomId.IsNullOrEmpty()
-                    ? AvailableRooms().OrderBy(handler =>  handler.Model.DateCreated).FirstOrDefault()
+                    ? AvailableRooms().OrderBy(handler => handler.Room.DateCreated).FirstOrDefault()
                     : GetRoomHandler(roomId.ToGuid());
 
                 if (roomHandler.IsNullOrEmpty())
@@ -93,7 +85,7 @@ namespace SnakeGame.Application.Handlers
                 var playerModel = roomHandler.CreatePlayer(connectionId, name);
                 roomHandler.AddPlayer(playerModel);
                 return playerModel;
-            }
+
         }
 
 

@@ -1,31 +1,35 @@
 ﻿using System;
+using SnakeGame.Domain.Player.Interfaces;
+using SnakeGame.Domain.Player.Models;
 using SnakeGame.Infrastructure.Interfaces;
 using SnakeGame.Infrastructure.Models;
-using ICharHandler = SnakeGame.Domain.Player.Interfaces.ICharHandler;
-using PlayerModel = SnakeGame.Infrastructure.Models.PlayerModel;
-using ScoreModel = SnakeGame.Infrastructure.Models.ScoreModel;
+
 
 namespace SnakeGame.Domain.Player
 {
     public class PlayerGenerator
     {
+        private readonly string _connectionId;
+        private readonly string _name;
+        private readonly Guid _roomGuid;
 
 
-        public PlayerGenerator()
+        public PlayerGenerator(string connectionId, string name, Guid roomGuid)
         {
-
+            _connectionId = connectionId;
+            _name = name;
+            _roomGuid = roomGuid;
         }
-        public PlayerModel<TChar> New<TChar>(string connectionId, string name, Guid roomGuid, TChar playerChar)
-        where  TChar:IChar,ICharHandler
+        public IPlayer New(ICharHandler playerChar)
         {
 
-            var playerModel = new PlayerModel<TChar>
+            var playerModel = new PlayerModel
             {
-                RoomId = roomGuid,
-                ConnectionId = connectionId,
-                Name = name,
+                RoomId = _roomGuid,
+                ConnectionId = _connectionId,
+                Name = _name,
                 Score = new ScoreModel(),
-                Char = playerChar
+                Char = playerChar.Model
             };
             return playerModel;
         }

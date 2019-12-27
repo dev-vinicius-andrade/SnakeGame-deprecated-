@@ -1,13 +1,15 @@
-﻿using SnakeGame.Infrastructure.Abstractions;
-using SnakeGame.Infrastructure.Models;
-
+﻿using System;
+using System.Collections.Generic;
 namespace SnakeGame.Infrastructure.Interfaces
 {
-    public interface IRoom<TChar,TFood>
-    where  TChar:IChar
-    where  TFood:BaseFood,IPositionObject
-    
+    public interface IRoom : ITrackable
     {
-       RoomModel<TChar,TFood> Model { get; }
+        IColor Color { get; }
+        bool IsAvailable { get; }
+        bool ConnectOnlyWithId { get; }
+        DateTime DateCreated { get; }
+        IList<IPlayer> Players { get; }
+        IList<IFood> Foods { get; }
+
     }
 }

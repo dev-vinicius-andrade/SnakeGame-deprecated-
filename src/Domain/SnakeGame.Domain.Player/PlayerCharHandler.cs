@@ -1,6 +1,8 @@
-﻿using SnakeGame.Domain.Player.Abstractions;
-using SnakeGame.Infrastructure.Abstractions;
+﻿using System.Collections.Generic;
+using SnakeGame.Domain.Player.Abstractions;
+using SnakeGame.Infrastructure.Enums;
 using SnakeGame.Infrastructure.Helpers;
+using SnakeGame.Infrastructure.Interfaces;
 using SnakeGame.Infrastructure.Models;
 
 namespace SnakeGame.Domain.Player
@@ -8,21 +10,21 @@ namespace SnakeGame.Domain.Player
     public class PlayerCharHandler : BasePlayerCharHandler
     {
 
-        public PlayerCharHandler(BaseChar playerChar, int xLimit,int yLimit):base(playerChar, xLimit, yLimit){}
+        public PlayerCharHandler(IChar playerChar, int xLimit,int yLimit) :base(playerChar, xLimit, yLimit){}
 
 
         protected override int GetDirectionAxisMovement(int axisValue,int movement=1) => axisValue * movement;
-        protected override PositionModel BoundaryReachPositionRecalculator(PositionModel newPosition, PositionModel direction, int xMaxValue, int yMaxValue)
+        protected override IPosition BoundaryReachPositionRecalculator(IPosition newPosition, IDirection direction, int xMaxValue, int yMaxValue)
         {
             var recalculatedPosition = newPosition.Clone();
-            if (newPosition.X >= xMaxValue && direction.X == 1)
-                recalculatedPosition.X = 0;
-            if (newPosition.X <= 0 && direction.X == -1)
-                recalculatedPosition.X = xMaxValue;
-            if (newPosition.Y <= 0 && direction.Y == -1)
-                recalculatedPosition.Y = yMaxValue;
-            if (newPosition.Y >= yMaxValue && direction.Y == 1)
-                recalculatedPosition.Y = 0;
+            if (newPosition.Coordinate.X >= xMaxValue && direction.XSpeed == 1)
+                recalculatedPosition.Coordinate.X = 0;
+            if (newPosition.Coordinate.X <= 0 && direction.XSpeed == -1)
+                recalculatedPosition.Coordinate.X = xMaxValue;
+            if (newPosition.Coordinate.Y <= 0 && direction.YSpeed == -1)
+                recalculatedPosition.Coordinate.Y = yMaxValue;
+            if (newPosition.Coordinate.Y >= yMaxValue && direction.YSpeed == 1)
+                recalculatedPosition.Coordinate.Y = 0;
             return recalculatedPosition;
         }
 

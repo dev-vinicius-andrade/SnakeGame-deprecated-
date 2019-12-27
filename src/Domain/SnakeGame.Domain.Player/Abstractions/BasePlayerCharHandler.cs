@@ -1,7 +1,7 @@
-﻿
-using System;
+﻿using System.Collections.Generic;
 using SnakeGame.Domain.Player.Interfaces;
-using SnakeGame.Infrastructure.Abstractions;
+using SnakeGame.Infrastructure.Enums;
+using SnakeGame.Infrastructure.Helpers;
 using SnakeGame.Infrastructure.Interfaces;
 using SnakeGame.Infrastructure.Models;
 
@@ -12,72 +12,76 @@ namespace SnakeGame.Domain.Player.Abstractions
     {
         private readonly int _xLimit;
         private readonly int _yLimit;
-        public Guid Id { get; }
-        public BaseChar Model { get; }
+        public IChar Model { get; }
 
-        protected BasePlayerCharHandler(BaseChar playerChar, int xLimit,int yLimit)
+
+        protected BasePlayerCharHandler(IChar playerChar, int xLimit, int yLimit)
         {
             _xLimit = xLimit;
             _yLimit = yLimit;
             Model = playerChar;
-            Id = Guid.NewGuid();
-
         }
 
-        protected abstract int GetDirectionAxisMovement(int axisValue,int movement=1);
-        protected abstract PositionModel BoundaryReachPositionRecalculator(PositionModel newPosition, PositionModel direction, int xMaxValue, int yMaxValue);
-        public PositionModel Move(PositionModel direction,int movement=1)
+        protected abstract int GetDirectionAxisMovement(int axisValue, int movement = 1);
+        protected abstract IPosition BoundaryReachPositionRecalculator(IPosition newPosition, IDirection direction, int xMaxValue, int yMaxValue);
+        public IPosition Move(IDirection direction, int movement = 1)
         {
-            if (direction.X == null && direction.Y == null)
+            if (direction.XSpeed == 0 && direction.YSpeed == 0)
                 return Model.Position;
 
             var newPosition = new PositionModel
             {
-                X = Model.Position.X + GetDirectionAxisMovement(direction.X.Value,movement),
-                Y = Model.Position.Y + GetDirectionAxisMovement(direction.Y.Value,movement)
+                Coordinate = new CoordinateModel
+                {
+                    X = Model.Position.Coordinate.X + GetDirectionAxisMovement(direction.XSpeed, movement),
+                    Y = Model.Position.Coordinate.Y + GetDirectionAxisMovement(direction.YSpeed, movement)
+                }
             };
             return BoundaryReachPositionRecalculator(
-                newPosition:newPosition, 
-                direction:direction,
-                xMaxValue:_xLimit,
-                yMaxValue:_yLimit);
+                newPosition: newPosition,
+                direction: direction,
+                xMaxValue: _xLimit,
+                yMaxValue: _yLimit);
         }
- 
 
-        public virtual void Add(BaseChar playerChar, PositionModel position, bool removeLast = true)
+
+        public virtual void Add(IChar playerChar, IPosition position, bool removeLast = true)
         {
             playerChar.Position.Color = SnakeGenerator.GetBodyColor(playerChar.Color);
             playerChar.Path.Add(new PositionModel
             {
-                X = position.X,
-                Y = position.Y,
+                Coordinate = new CoordinateModel
+                {
+                    X = position.Coordinate.X,
+                    Y = position.Coordinate.Y
+                },
                 Color = playerChar.Color
             });
             if (removeLast)
                 playerChar.Path.RemoveAt(0);
         }
 
-        public bool ChangeDirection(PositionModel newDirection)
+        public bool ChangeDirection(DirectionsEnum newDirection)
         {
-            if (!DirectionChanged(Model.Direction, newDirection))
+            if (!Model.KnownDirections.ContainsKey(newDirection))
                 return false;
 
-
-            Model.Direction = new PositionModel
-            {
-                X = newDirection.X,
-                Y = newDirection.Y
-            };
-
+            var direction = Model.KnownDirections[newDirection];
+            if (!DirectionChanged(Model.Direction, direction))
+                return false;
+            Model.Direction = direction.Clone();
             return true;
         }
 
-        private bool DirectionChanged(PositionModel currentlyDirection, PositionModel newDirection)
+        private bool DirectionChanged(IDirection currentlyDirection, IDirection newDirection)
         {
-            if (currentlyDirection.X == 0 && newDirection.X != 0)
+            if (currentlyDirection.Direction.Equals(newDirection.Direction))
+                return false;
+
+            if (currentlyDirection.XSpeed == 0 && newDirection.XSpeed != 0)
                 return true;
 
-            if (currentlyDirection.Y == 0 && newDirection.Y != 0)
+            if (currentlyDirection.YSpeed == 0 && newDirection.YSpeed != 0)
                 return true;
 
             return false;

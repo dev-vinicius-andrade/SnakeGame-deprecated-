@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnakeGame.Domain.Player.Configurations
+﻿namespace SnakeGame.Domain.Player.Configurations
 {
     public class SnakeConfigurationModel
     {

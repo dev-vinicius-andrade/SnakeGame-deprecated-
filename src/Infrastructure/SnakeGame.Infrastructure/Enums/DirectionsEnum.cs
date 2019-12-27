@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SnakeGame.Domain.Player.Enums
+namespace SnakeGame.Infrastructure.Enums
 {
     public enum DirectionsEnum
     {

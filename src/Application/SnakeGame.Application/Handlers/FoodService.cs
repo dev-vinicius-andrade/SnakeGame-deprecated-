@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SnakeGame.Application.Configurations;
-using SnakeGame.Infrastructure.Abstractions;
-using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Infrastructure.Models;
-
-namespace SnakeGame.Application.Handlers
+﻿namespace SnakeGame.Application.Handlers
 {
     public class FoodService
     {

@@ -1,14 +1,16 @@
-﻿namespace SnakeGame.Infrastructure.Models
+﻿using SnakeGame.Infrastructure.Interfaces;
+
+namespace SnakeGame.Infrastructure.Models
 {
-    public class ColorModel
+    public class ColorModel:IColor
     {
         public ColorModel(){}
         public ColorModel(string backgroundColor, string borderColor)
         {
-            BackgroundColor = backgroundColor;
-            BorderColor = borderColor;
+            Background = backgroundColor;
+            Border = borderColor;
         }
-        public string BackgroundColor { get; set; }
-        public string BorderColor { get; set; }
+        public string Background { get; set; }
+        public string Border { get; set; }
     }
 }

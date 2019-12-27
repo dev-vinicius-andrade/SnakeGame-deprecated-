@@ -1,15 +1,14 @@
-﻿namespace SnakeGame.Infrastructure.Models
+﻿using SnakeGame.Infrastructure.Interfaces;
+
+namespace SnakeGame.Infrastructure.Models
 {
     
-    public class PositionModel
+    public class PositionModel:IPosition
     {
-        
-        public int? X { get; set; }
-        public int? Y { get; set; }
-        public  ColorModel Color { get; set; }
-        //public string Color { get; set; }
-        //public string BorderColor { get; set; }
-
-
+        public PositionModel()
+        {
+        }
+        public ICoordinate Coordinate { get; set; }
+        public IColor Color { get; set; }
     }
 }

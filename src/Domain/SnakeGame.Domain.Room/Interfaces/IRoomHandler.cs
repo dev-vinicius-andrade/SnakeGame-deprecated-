@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using SnakeGame.Infrastructure.Abstractions;
+using SnakeGame.Domain.Player.Interfaces;
 using SnakeGame.Infrastructure.Interfaces;
-using SnakeGame.Infrastructure.Models;
 
 namespace SnakeGame.Domain.Room.Interfaces
 {
-    public interface IRoomHandler<TChar,TFood>:IRoom<TChar,TFood>
-        where  TChar:IChar
-        where  TFood:BaseFood
-    {
+    public interface IRoomHandler
 
+    {
+        int Width { get; }
+        int Height { get; }
+        IRoom Room { get; }
         IReadOnlyList<string> GetConnectedClientsIds();
         string GetRandomAvailableColor();
-        IReadOnlyList<ScoreModel> GetScore();
+        IReadOnlyList<IScore> GetScore();
         bool IsRoomAvailable();
-        PlayerModel GetPlayer(Guid playerGuid);
-        TFood GenerateFood();
-        PlayerModel CreatePlayer(string connectionId, string name);
-        void AddPlayer(PlayerModel playerModel);
-        bool HasPositionBeeingUsed(PositionModel position,int delta=0)
-            => AnyCharInPosition(position,delta) || AnyFoodInPosition(position,delta);
+        IPlayer GetPlayer(Guid playerGuid);
+        IFood GenerateFood();
+        IPlayer CreatePlayer(string connectionId, string name);
+        void AddPlayer(IPlayer playerModel);
+        bool HasPositionBeeingUsed(IPosition position, int delta = 0);
         
-        bool AnyCharInPosition(PositionModel position,int delta=0);
-
-
-        bool AnyFoodInPosition(PositionModel position,int delta=0);
+        bool AnyCharInPosition(IPosition position,int delta=0);
+        bool AnyFoodInPosition(IPosition position,int delta=0);
         bool IsColorBeeingUsed(string color);
         bool AnyCharWithColor(string color);
         bool AnyFoodWithColor(string color);

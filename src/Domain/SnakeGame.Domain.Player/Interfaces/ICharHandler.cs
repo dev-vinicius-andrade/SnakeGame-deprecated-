@@ -1,13 +1,13 @@
-﻿using SnakeGame.Infrastructure.Abstractions;
+﻿using SnakeGame.Infrastructure.Enums;
 using SnakeGame.Infrastructure.Interfaces;
-using SnakeGame.Infrastructure.Models;
 
 namespace SnakeGame.Domain.Player.Interfaces
 {
-    public interface ICharHandler:IChar
+    public interface ICharHandler
     {
-        PositionModel Move(PositionModel direction,int movement=1);
-        void Add(BaseChar playerChar, PositionModel position, bool removeLast = true);
-        bool ChangeDirection(PositionModel newDirection);
+        IChar Model { get; }
+        IPosition Move(IDirection direction,int movement=1);
+        void Add(IChar playerChar, IPosition position, bool removeLast = true);
+        bool ChangeDirection(DirectionsEnum newDirection);
     }
 }

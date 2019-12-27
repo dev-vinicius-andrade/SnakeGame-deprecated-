@@ -5,15 +5,15 @@ export default class DirectionModule {
     }
     ArrowRight()
     {
-        return new Direction(1,0,0);
+        return 2;
     }
     ArrowLeft(){
-        return new Direction(-1,0,0);
+        return 0
     }
     ArrowUp(){
-        return new Direction(0,-1,0);
+        return 1;
     }
     ArrowDown(){
-        return new Direction(0,1,0);
+        return 3;
     }
 }

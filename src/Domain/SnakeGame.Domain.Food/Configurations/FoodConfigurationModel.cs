@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnakeGame.Domain.Food.Configurations
+﻿namespace SnakeGame.Domain.Food.Configurations
 {
     public class FoodConfigurationModel
     {

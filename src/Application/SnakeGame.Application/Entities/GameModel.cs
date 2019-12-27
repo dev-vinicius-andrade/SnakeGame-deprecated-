@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using SnakeGame.Infrastructure.Abstractions;
-using SnakeGame.Infrastructure.Models;
-
+using SnakeGame.Infrastructure.Interfaces;
 namespace SnakeGame.Application.Entities
 {
     public class GameModel
     {
-        public GameModel(RoomModel room, IReadOnlyList<ScoreModel> score)
+        public GameModel(IRoom room, IReadOnlyList<IScore> score)
         {
             Score = score;
-            Foods = room.Foods;
             RoomId = room.Id;
-            Players = room.Players;
+            Foods = room.Foods as IReadOnlyList<IFood>;
+            Players = room.Players as IReadOnlyList<IPlayer>;
         }
 
         public Guid RoomId { get; }
-        public IReadOnlyList<ScoreModel> Score { get;  }
-        public IReadOnlyList<PlayerModel> Players { get; }
-        public IReadOnlyList<BaseFood> Foods { get; }
+        public IReadOnlyList<IScore> Score { get;  }
+        public IReadOnlyList<IPlayer> Players { get; }
+        public IReadOnlyList<IFood> Foods { get; }
     }
 }

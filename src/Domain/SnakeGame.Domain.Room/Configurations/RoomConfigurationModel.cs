@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnakeGame.Domain.Room.Configurations
+﻿namespace SnakeGame.Domain.Room.Configurations
 {
     public partial class RoomConfigurationModel
     {

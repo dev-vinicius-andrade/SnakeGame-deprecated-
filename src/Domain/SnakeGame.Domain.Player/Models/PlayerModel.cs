@@ -1,23 +1,25 @@
 ﻿using System;
 using SnakeGame.Infrastructure.Interfaces;
 
-namespace SnakeGame.Infrastructure.Models
+namespace SnakeGame.Domain.Player.Models
 {
-    public class PlayerModel
+    public class PlayerModel:IPlayer
 
     {
         public PlayerModel(bool alive = true)
         {
             Alive = alive;
+            Id = Guid.NewGuid();
         }
-        public Guid PlayerGuid { get; set; }
+        public Guid Id { get; }
         public  Guid RoomId { get; set; }
         public string Name { get; set; }
         
         public string ConnectionId { get; set; }
         public  bool Alive { get; set; }
-        public ScoreModel Score { get; set; }
-        public PositionModel Position => Char.Model.Position;
+        public IScore Score { get; set; }
+        public IPosition Position => Char.Position;
         public IChar Char { get; set; }
+       
     }
 }

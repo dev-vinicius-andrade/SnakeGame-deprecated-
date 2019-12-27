@@ -1,11 +1,16 @@
-﻿using System;
-using SnakeGame.Infrastructure.Abstractions;
+﻿using System.Collections.Generic;
+using SnakeGame.Infrastructure.Enums;
 
 namespace SnakeGame.Infrastructure.Interfaces
 {
-    public interface IChar
+    public interface IChar :ICurrentPosition,  ITrackable
     {
-        Guid Id { get; }
-        BaseChar Model { get; }
+        IReadOnlyDictionary<DirectionsEnum, IDirection> KnownDirections { get; }
+        IDirection Direction { get; set; }
+        int Size { get; set; }
+        IList<IPosition> Path { get; set; }
+        int Speed { get; set; }
+        IColor Color { get; set; }
+        long Length { get;}
     }
 }

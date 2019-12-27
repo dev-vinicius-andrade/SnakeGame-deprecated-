@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Presentation", "1.Present
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Domain", "4.Domain", "{A615A3CE-1901-473B-9AB5-37503AC9341B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Infrastructure", "4.Infrastructure", "{48012D5D-B420-4F97-BBB2-2F7FCCB2BAB4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.Infrastructure", "5.Infrastructure", "{48012D5D-B420-4F97-BBB2-2F7FCCB2BAB4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Api", "src\Presentation\SnakeGame.Api\SnakeGame.Api.csproj", "{2E5A82F3-F306-491C-BB60-6EBFD4CB202F}"
 EndProject
@@ -44,11 +44,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Domain.Room", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Application", "2.Application", "{C4E0EF01-D134-4F66-99A0-709D5D800450}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Application", "src\Application\SnakeGame.Application\SnakeGame.Application.csproj", "{E1FF0737-C2F3-43B9-AB4D-538A5D5A530E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Application", "src\Application\SnakeGame.Application\SnakeGame.Application.csproj", "{E1FF0737-C2F3-43B9-AB4D-538A5D5A530E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.Services", "3.Services", "{ADCB90EB-2361-46D5-AC97-D8429068C353}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeGame.Services.Room", "src\Services\SnakeGame.Services.Room\SnakeGame.Services.Room.csproj", "{EEBDACF1-4B9B-4483-807B-0C3BC40C917D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeGame.Services.Room", "src\Services\SnakeGame.Services.Room\SnakeGame.Services.Room.csproj", "{EEBDACF1-4B9B-4483-807B-0C3BC40C917D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using SnakeGame.Domain.Player.Abstractions;
 using SnakeGame.Domain.Player.Configurations;
-using SnakeGame.Domain.Player.Enums;
 using SnakeGame.Domain.Player.Helpers;
 using SnakeGame.Domain.Player.Models;
-using SnakeGame.Infrastructure.Abstractions;
+using SnakeGame.Infrastructure.Enums;
 using SnakeGame.Infrastructure.Helpers;
+using SnakeGame.Infrastructure.Interfaces;
 using SnakeGame.Infrastructure.Models;
 
 namespace SnakeGame.Domain.Player
@@ -12,23 +13,16 @@ namespace SnakeGame.Domain.Player
     public class SnakeGenerator
     {
         private readonly SnakeConfigurationModel _snakeConfiguration;
-        private readonly Dictionary<DirectionsEnum, PositionModel> _knownDirections;
-        public SnakeGenerator(SnakeConfigurationModel snakeConfiguration)
+        private readonly IReadOnlyDictionary<DirectionsEnum, IDirection> _knownDirections;
+        public SnakeGenerator(
+            IReadOnlyDictionary<DirectionsEnum, IDirection> knownDirections,
+            SnakeConfigurationModel snakeConfiguration
+            )
         {
             _snakeConfiguration = snakeConfiguration;
-            _knownDirections = RegisterKnownDirections();
+            _knownDirections = knownDirections;
         }
-        private Dictionary<DirectionsEnum, PositionModel> RegisterKnownDirections()
-        {
-            return new Dictionary<DirectionsEnum, PositionModel>
-            {
-                { DirectionsEnum.Left, new PositionModel { X = -1, Y = 0 } },
-                { DirectionsEnum.Up, new PositionModel { X = 0, Y = -1} },
-                { DirectionsEnum.Right, new PositionModel { X = 1, Y = 0 } },
-                { DirectionsEnum.Down, new PositionModel { X = 0, Y = 1 } }
-            };
-        }
-        public BaseChar Generate(ColorModel color, int xMaxValue, int yMaxValue)
+        public IChar Generate(ColorModel color, int xMaxValue, int yMaxValue)
         {
             var initialPosition = GenerateInitialPosition(color, _snakeConfiguration.HeadSize, xMaxValue, yMaxValue);
             var initialDirection = RandomDirection();
@@ -38,7 +32,7 @@ namespace SnakeGame.Domain.Player
                 color: color
             );
 
-            return new SnakeModel
+            return new SnakeModel(_knownDirections)
             {
                 Path = initialPath,
                 Size = _snakeConfiguration.HeadSize,
@@ -49,7 +43,7 @@ namespace SnakeGame.Domain.Player
 
         }
 
-        private PositionModel GenerateInitialPosition(ColorModel color, in int snakeConfigurationHeadSize,
+        private IPosition GenerateInitialPosition(IColor color, in int snakeConfigurationHeadSize,
             in int xMaxValue, in int yMaxValue)
             =>
                 RandomHelper.RandomPosition(
@@ -61,27 +55,30 @@ namespace SnakeGame.Domain.Player
 
 
 
-        private IList<PositionModel> GenerateInitialPath(PositionModel initialPosition, PositionModel initialDirection, ColorModel color)
+        private IList<IPosition> GenerateInitialPath(IPosition initialPosition, IDirection initialDirection, ColorModel color)
         {
-            var initialPath = new List<PositionModel>().AddEntity(initialPosition);
+            var initialPath = new List<IPosition>().AddEntity(initialPosition);
             for (var size = 1; size <= _snakeConfiguration.InitialSnakeSize; size++)
                 initialPath
                     .Insert(0, new PositionModel
                     {
-                        X = initialPosition.X + (initialDirection.X * size * _snakeConfiguration.HeadSize),
-                        Y = initialPosition.Y + (initialDirection.Y * size * _snakeConfiguration.HeadSize),
+                        Coordinate = new CoordinateModel
+                        {
+                            X = initialPosition.Coordinate.X + (initialDirection.XSpeed * size * _snakeConfiguration.HeadSize),
+                            Y = initialPosition.Coordinate.Y + (initialDirection.YSpeed * size * _snakeConfiguration.HeadSize)
+                        },
                         Color = GetBodyColor(color)
                     });
             return initialPath;
         }
 
-        public static ColorModel GetBodyColor(ColorModel color) => new ColorModel
+        public static IColor GetBodyColor(IColor color) => new ColorModel
         {
-            BackgroundColor = ColorHelper.ChangeColorLevel(color.BackgroundColor, 1.5),
-            BorderColor = color.BorderColor
+            Background = ColorHelper.ChangeColorLevel(color.Background, 1.5),
+            Border = color.Border
         };
 
-        private PositionModel RandomDirection()
+        private IDirection RandomDirection()
         {
             var randomNumber = RandomHelper.RandomNumber(0, _knownDirections.Count);
             return _knownDirections.ContainsKey(randomNumber.ToDirectionsEnum())

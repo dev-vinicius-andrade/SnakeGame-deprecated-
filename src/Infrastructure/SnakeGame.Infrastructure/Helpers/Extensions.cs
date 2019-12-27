@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
-using SnakeGame.Infrastructure.Data;
 
 namespace SnakeGame.Infrastructure.Helpers
 {
@@ -17,8 +15,6 @@ namespace SnakeGame.Infrastructure.Helpers
 
             return obj == null;
         }
-
-        //public static bool IsNull(this object obj) => obj == null;
         public static Guid ToGuid(this string guid) => Guid.Parse(guid);
 
         public static T Clone<T>(this T originalObject) where T:class
@@ -41,13 +37,5 @@ namespace SnakeGame.Infrastructure.Helpers
             list.Add(entity);
             return list;
         }
-
-        public static IServiceCollection AddGameContext(this IServiceCollection services)
-        {
-            services.AddSingleton<GameContext>();
-            return services;
-        }
-
-
     }
 }

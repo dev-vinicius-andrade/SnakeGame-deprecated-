@@ -1,4 +1,4 @@
-﻿using SnakeGame.Domain.Player.Enums;
+﻿using SnakeGame.Infrastructure.Enums;
 
 namespace SnakeGame.Domain.Player.Helpers
 {

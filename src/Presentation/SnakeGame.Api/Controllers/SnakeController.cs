@@ -31,9 +31,10 @@ namespace SnakeGame.Api.Controllers
             if(!_userManagement.IsUserConnected())
                 return new JsonResult(ResponseHelper.DefaultUnauthorized);
 
-            var result = _snakeService.ChangeSpeedConfiguration(value);
+            //var result = _snakeService.ChangeSpeedConfiguration(value);
 
-            return new JsonResult(result){StatusCode = result.Code};
+            //return new JsonResult(result){StatusCode = result.Code};
+            return null;
         }
         [HttpPost("changeInitialSize")]
         public JsonResult ChangeInitialSize(int value)
@@ -41,8 +42,9 @@ namespace SnakeGame.Api.Controllers
             if(!_userManagement.IsUserConnected())
                 return new JsonResult(ResponseHelper.DefaultUnauthorized);
 
-            var result = _snakeService.ChangeInitialSize(value);
-            return new JsonResult(result){StatusCode = result.Code};
+            //var result = _snakeService.ChangeInitialSize(value);
+            //return new JsonResult(result){StatusCode = result.Code};
+            return null;
         }
 
 
