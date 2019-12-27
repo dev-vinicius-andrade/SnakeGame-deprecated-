@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Admin\SnakeGame.Domain.Admin.csproj" />
+    <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Food\SnakeGame.Domain.Food.csproj" />
+    <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Player\SnakeGame.Domain.Player.csproj" />
+    <ProjectReference Include="..\..\Domain\SnakeGame.Domain.Room\SnakeGame.Domain.Room.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\SnakeGame.Infrastructure\SnakeGame.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Services\SnakeGame.Services.Room\SnakeGame.Services.Room.csproj" />
+  </ItemGroup>
+
+</Project>

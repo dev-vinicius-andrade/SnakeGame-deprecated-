@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using SnakeGame.Api.Hubs;
-using SnakeGame.Services;
+
+using SnakeGame.Application;
+using SnakeGame.Application.Services;
 
 namespace SnakeGame.Api.Controllers
 {
@@ -9,10 +10,10 @@ namespace SnakeGame.Api.Controllers
     [Route("[controller]")]
     public class LoginController : Controller
     {
-        private readonly IHubContext<Game> _hubContext;
+        private readonly IHubContext<GameHub> _hubContext;
         private readonly AdminService _adminService;
 
-        public LoginController(IHubContext<Game> hubContext,
+        public LoginController(IHubContext<GameHub> hubContext,
             AdminService adminService)
         {
             _hubContext = hubContext;

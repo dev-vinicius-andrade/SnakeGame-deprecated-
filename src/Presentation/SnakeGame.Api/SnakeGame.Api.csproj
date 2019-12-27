@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\SnakeGame.Services\SnakeGame.Services.csproj" />
+    <ProjectReference Include="..\..\Application\SnakeGame.Application\SnakeGame.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>

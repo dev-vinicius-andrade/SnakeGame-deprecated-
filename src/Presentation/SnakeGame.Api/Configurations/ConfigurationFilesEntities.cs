@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using SnakeGame.Application.Configurations;
 using SnakeGame.Domain.Admin.Models;
-using SnakeGame.Infrastructure.Configurations;
 
 namespace SnakeGame.Api.Configurations
 {

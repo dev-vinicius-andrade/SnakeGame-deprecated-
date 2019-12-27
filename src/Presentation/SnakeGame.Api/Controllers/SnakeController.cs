@@ -1,10 +1,10 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using SnakeGame.Api.Hubs;
+
+using SnakeGame.Application;
+using SnakeGame.Application.Handlers;
 using SnakeGame.Domain.Admin;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Services;
 
 namespace SnakeGame.Api.Controllers
 {
@@ -13,10 +13,10 @@ namespace SnakeGame.Api.Controllers
     public class SnakeController : Controller
     {
         private readonly SnakeService _snakeService;
-        private readonly IHubContext<Game> _hubContext;
+        private readonly IHubContext<GameHub> _hubContext;
         private readonly UserManagement _userManagement;
 
-        public SnakeController(IHubContext<Game> hubContext,
+        public SnakeController(IHubContext<GameHub> hubContext,
             UserManagement userManagement,
             SnakeService snakeService)
         {

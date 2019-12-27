@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace SnakeGame.Infrastructure.Helpers
 {   public static class ColorHelper

@@ -2,8 +2,8 @@
 using System.Linq;
 using SnakeGame.Domain.Admin.Helpers;
 using SnakeGame.Domain.Admin.Models;
-using SnakeGame.Infrastructure.Data.Models;
 using SnakeGame.Infrastructure.Helpers;
+using SnakeGame.Infrastructure.Models;
 
 namespace SnakeGame.Domain.Admin
 {

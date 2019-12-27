@@ -7,8 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using SnakeGame.Api.Configurations;
 using SnakeGame.Api.Helpers;
-using SnakeGame.Api.Hubs;
-using SnakeGame.Infrastructure.Helpers;
+using SnakeGame.Application;
 
 namespace SnakeGame.Api
 {
@@ -25,7 +24,7 @@ namespace SnakeGame.Api
             _configuration = BuildConfiguration();
             _appSettings = _configuration.Get<ConfigurationFilesEntities>();
             _apiInfo = new OpenApiInfo
-                {Title = "Snake Game Admin Panel", Description = "Use this for configuring your application", Version = "v1"};
+                {Title = "Char Game Admin Panel", Description = "Use this for configuring your application", Version = "v1"};
             _apiName = "snakeGameConfiguration";
         }
 
@@ -69,7 +68,7 @@ namespace SnakeGame.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<Game>("/game");
+                endpoints.MapHub<GameHub>("/game");
             });
         }
     }

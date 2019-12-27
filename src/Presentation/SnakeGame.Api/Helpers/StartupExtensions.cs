@@ -2,11 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using SnakeGame.Api.Configurations;
+using SnakeGame.Application.Handlers;
+using SnakeGame.Application.Services;
 using SnakeGame.Domain.Admin;
-using SnakeGame.Domain.Admin.Models;
 using SnakeGame.Infrastructure.Helpers;
-using SnakeGame.Services;
-using SnakeGame.Services.Entities;
 
 namespace SnakeGame.Api.Helpers
 {
@@ -18,9 +17,7 @@ namespace SnakeGame.Api.Helpers
             services.AddScoped<FoodService>();
             services.AddScoped<GameService>();
             //services.AddSingleton<GameData>();
-            services.AddScoped<RoomService>();
             services.AddScoped<SnakeService>();
-            services.AddScoped<PlayerService>();
             services.AddSingleton<AdminService>();
             services.AddSingleton<UserManagement>();
             services.AddTransient(p=>configuration.Get<ConfigurationFilesEntities>().GameConfigurations);

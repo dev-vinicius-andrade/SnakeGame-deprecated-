@@ -1,19 +1,18 @@
 ﻿using System;
-using SnakeGame.Infrastructure.Data.Models;
+using SnakeGame.Infrastructure.Models;
 
 namespace SnakeGame.Infrastructure.Helpers
 {
     public static class RandomHelper
     {
-        public static PositionModel RandomPosition(int xMinValue, int xMaxValue, int yMinValue, int yMaxValue, string color, string borderColor)
+        public static PositionModel RandomPosition(int xMinValue, int xMaxValue, int yMinValue, int yMaxValue, ColorModel color)
         {
             var randomizer = new Random();
             return new PositionModel
             {
                 X = randomizer.Next(xMinValue, xMaxValue),
                 Y = randomizer.Next(yMinValue, yMaxValue),
-                Color = color,
-                BorderColor = borderColor
+                Color = color
             };
         }
         public static int RandomNumber(int minimunValue, int maximunValue)=>
