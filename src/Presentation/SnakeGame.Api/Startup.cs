@@ -44,7 +44,9 @@ namespace SnakeGame.Api
             {
                 p.KeepAliveInterval=_appSettings.HubOptions.KeepAliveInterval;
                 p.ClientTimeoutInterval=_appSettings.HubOptions.ClientTimeoutInterval;
-            });
+                p.MaximumReceiveMessageSize = 32768;
+                
+            }).AddJsonProtocol();
             services.AddSwagger(_configuration, _apiName, _apiInfo);
             services.AddDependencies(_configuration);
             services.ConfigureCors(CorsPolicyName);
@@ -65,6 +67,7 @@ namespace SnakeGame.Api
 
             app.UseRouting();
             app.UseCors(CorsPolicyName);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -25,10 +25,10 @@ namespace SnakeGame.Api.Helpers
             services.AddScoped<SnakeGenerator>();
             services.AddSingleton<AdminService>();
             services.AddSingleton<UserManagement>();
-            services.AddTransient(p=>configuration.Get<ConfigurationFilesEntities>().GameConfigurations);
+            services.AddScoped(p=>configuration.Get<ConfigurationFilesEntities>().GameConfigurations);
             services.AddSingleton(p=>configuration.Get<ConfigurationFilesEntities>().AvailableUsersConfiguration); 
             services.AddSingleton(p=>configuration.Get<ConfigurationFilesEntities>().PasswordEncryptConfiguration);
-            services.AddTransient(p=>configuration.Get<ConfigurationFilesEntities>().GameConfigurations.SnakeConfiguration);
+            services.AddScoped(p=>configuration.Get<ConfigurationFilesEntities>().GameConfigurations.SnakeConfiguration);
         }
         public static void AddSwagger(this IServiceCollection services , IConfiguration configuration, string apiName, OpenApiInfo apiInfo)
         {

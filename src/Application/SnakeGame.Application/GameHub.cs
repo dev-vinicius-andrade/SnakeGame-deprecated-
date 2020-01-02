@@ -7,27 +7,22 @@ using SnakeGame.Application.Services;
 using SnakeGame.Domain.Player;
 using SnakeGame.Domain.Player.Models;
 using SnakeGame.Infrastructure.Enums;
-using SnakeGame.Infrastructure.Interfaces;
-using SnakeGame.Infrastructure.Models;
 using SnakeGame.Services.Room.Configurations;
 
 namespace SnakeGame.Application
 {
     public partial class GameHub : Hub
     {
-        private readonly GameService _gameService;
         private readonly GameHandler _gameHandler;
         private readonly GameConfigurations _configurations;
 
 
         public GameHub(
-            GameService gameService,
             GameHandler gameHandler,
             GameConfigurations configurations
 
   )
         {
-            _gameService = gameService;
             _gameHandler = gameHandler;
             _configurations = configurations;
         }
@@ -92,7 +87,7 @@ namespace SnakeGame.Application
         }
 
 
-        public PlayerModel NewPlayer(string name, string roomId)
+        public dynamic NewPlayer(string name, string roomId)
         {
             try
             {

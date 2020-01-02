@@ -8,10 +8,11 @@ export default class PlayerModule {
 
     async connectPlayer(name, roomId){
       let player = await this.hub
-            .invoke("NewPlayer",name, roomId).then((result)=>{
-                console.log(result);
-
-          }).catch((error)=>console.log(error));
+            .invoke("NewPlayer",name, roomId);
+          // .done(function(result){
+          //       console.log(result);
+          //
+          // }).fail(function(error){console.log(error)});
       this.onGameDispose(this,player);
         return player;
     }
